@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        /* --- CORE STYLES & COLOR VARIABLES --- */
+        :root {
+            --text-main: #1e293b;
+            --text-light: #64748b;
+            --white-glass: rgba(255, 255, 255, 0.85);
+            --border-glass: rgba(255, 255, 255, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            /* Animated Aurora/Mesh Gradient Background */
+            background: linear-gradient(-45deg, #ffc3a0, #ffafbd, #c2e9fb, #a1c4fd, #e0c3fc);
+            background-size: 400% 400%;
+            animation: ambientBackground 15s ease infinite;
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+
+        @keyframes ambientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- GLOBAL ANIMATIONS --- */
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes textShine {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes borderPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        /* --- GLASSMORPHISM BIODATA SECTION --- */
+        .biodata-section {
+            background-color: var(--white-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            padding: 50px 40px 40px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1); 
+            text-align: center;
+            opacity: 0;
+            animation: fadeUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            position: relative;
+            z-index: 50; 
+        }
+
+        .profile-pic-placeholder {
+            width: 150px;
+            height: 150px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin: 0 auto 25px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--text-light);
+            /* Colorful gradient border for profile pic */
+            border: 4px solid transparent;
+            background-image: linear-gradient(#fff, #fff), linear-gradient(135deg, #ff0844, #ffb199, #4facfe, #00f2fe);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            animation: borderPulse 3s infinite;
+        }
+
+        .biodata-section h1 {
+            font-size: 3rem;
+            margin-bottom: 5px;
+            /* Animated Gradient Text */
+            background: linear-gradient(to right, #ff0844, #ffb199, #4facfe, #9b51e0, #ff0844);
+            background-size: 200% auto;
+            color: #000;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShine 6s linear infinite;
+        }
+
+        .biodata-section h3 {
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .biodata-section p {
+            color: var(--text-light);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .divider {
+            margin: 40px auto 30px auto;
+            width: 60%;
+            border: none;
+            border-top: 2px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            background: linear-gradient(to right, #4facfe, #9b51e0, #ff0844, #4facfe);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShine 8s linear infinite;
+        }
+
+        .pick-a-card-text {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* --- INTERACTIVE U-CURVE CARD FAN --- */
+        .card-fan-container {
+            position: relative;
+            height: 520px; 
+            width: 100%;
+            margin-top: -30px; 
+            perspective: 1000px;
+            z-index: 10;
+        }
+
+        .card-wrapper {
+            position: absolute;
+            left: 50%;
+            top: 10px; 
+            width: 220px;
+            height: 330px;
+            margin-left: -110px; 
+            z-index: var(--z); 
+            transform-origin: top center;
+            opacity: 0;
+            transform: translate(0, -350px) rotate(0deg) scale(0.3);
+            animation: dealCardsFromTop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation-delay: calc(var(--i) * 0.1s + 0.5s);
+        }
+
+        @keyframes dealCardsFromTop {
+            0% { opacity: 0; transform: translate(0, -350px) rotate(0deg) scale(0.3); }
+            100% { opacity: 1; transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1); }
+        }
+
+        .interactive-card {
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95); /* Solid enough to read, slight glass edge */
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0px 15px 25px rgba(0,0,0,0.08);
+            padding: 25px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Dynamic Colors for each card driven by the --theme variable */
+        .interactive-card h3 {
+            color: var(--theme);
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            font-weight: 800;
+            color: var(--theme);
+            opacity: 0.05; /* Subtle color watermark initially */
+            z-index: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .interactive-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .card-footer {
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+        }
+
+        /* Hover Actions - The Glowing Pop! */
+        .card-wrapper:hover {
+            z-index: 100 !important;
+        }
+
+        .card-wrapper:hover .interactive-card {
+            transform: translateY(50px) scale(1.08); 
+            border-color: var(--theme);
+            /* Glows dynamically with the assigned theme color */
+            box-shadow: 0 35px 50px rgba(0,0,0,0.15), 0 10px 30px var(--theme);
+        }
+
+        .card-wrapper:hover .card-number {
+            opacity: 0.25; 
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .card-wrapper:hover .card-footer {
+            color: var(--theme); /* Arrow and text turn colorful */
+        }
+
+        /* "Coming Soon" specific styles */
+        .locked-card {
+            cursor: default; 
+            background: rgba(248, 250, 252, 0.95);
+        }
+        
+        .locked-card h3, .locked-card .card-footer {
+            color: #94a3b8 !important; 
+        }
+
+        .locked-card .card-number {
+            font-size: 9rem; 
+        }
+
+        .card-wrapper:hover .locked-card {
+            border-color: #cbd5e1;
+            box-shadow: 0 35px 50px rgba(0,0,0,0.1);
+        }
+
+        /* --- PROJECT DETAILS VIEW --- */
+        .page { display: none; }
+        .page.active { display: block; }
+
+        .page.active .back-btn {
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .page.active .project-details {
+            opacity: 0;
+            animation: fadeUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .back-btn {
+            background-color: var(--white-glass);
+            backdrop-filter: blur(10px);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .back-btn:hover {
+            background-color: #fff;
+            transform: translateX(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            color: #4facfe;
+            border-color: #4facfe;
+        }
+
+        .project-details {
+            background: var(--white-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-details h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #4facfe, #9b51e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .screenshot-placeholder {
+            width: 100%;
+            height: 250px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-weight: bold;
+            font-size: 1.2rem;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            opacity: 0;
+            animation: fadeUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .screenshot-grid div:nth-child(1) { animation-delay: 0.1s; }
+        .screenshot-grid div:nth-child(2) { animation-delay: 0.2s; }
+        .screenshot-grid div:nth-child(3) { animation-delay: 0.3s; }
+        .screenshot-grid div:nth-child(4) { animation-delay: 0.4s; }
+
+        .screenshot-placeholder:hover {
+            transform: scale(1.03);
+            border-color: #4facfe;
+            background-color: #fff;
+            color: #4facfe;
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .biodata-section { margin-bottom: 20px; padding: 40px 20px; }
+            .card-fan-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 25px;
+                height: auto;
+                margin-top: 0px; 
+            }
+            .card-wrapper {
+                position: relative;
+                left: auto; top: auto; margin-left: 0;
+                width: 100%; height: 260px;
+                animation: fadeUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+                transform: none !important;
+            }
+            .card-wrapper:hover .interactive-card {
+                transform: translateY(-10px) scale(1.02); 
+            }
+            .screenshot-grid { grid-template-columns: 1fr; }
+            .project-details { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ================= MAIN PAGE ================= -->
+    <div id="main-page" class="page active">
+        
+        <div class="biodata-section">
+            <div class="profile-pic-placeholder">Your Photo Here</div>
+            <h1>[Your Full Name]</h1>
+            <h3>[Your Profession / Title]</h3>
+            <br>
+            <p><strong>About Me:</strong> Hello! I am a passionate creator/developer. This portfolio showcases all the major projects I have built throughout my life. I specialize in [Skill 1], [Skill 2], and [Skill 3].</p>
+            <br>
+            <p>Email: your.email@example.com &nbsp;|&nbsp; Location: [Your City, Country]</p>
+            
+            <hr class="divider">
+            <h2 class="section-title">My Projects</h2>
+            <p class="pick-a-card-text">Hover to pull a card out of the deck & click to view.</p>
+        </div>
+        
+        <!-- The U-Curve Card Fan (9 Cards) -->
+        <!-- Notice the new inline variable: --theme assigns a vibrant custom color to every card! -->
+        <div class="card-fan-container">
+            
+            <!-- Card 1 (Extreme Left - Pink) -->
+            <div class="card-wrapper" style="--i:1; --z:1; --tx:-320px; --ty:0px; --rot:32deg; --theme: rgba(236, 72, 153, 0.7);">
+                <div class="interactive-card" onclick="showProject('project1')">
+                    <div class="card-number">01</div>
+                    <div class="card-content">
+                        <h3>[Project One]</h3>
+                        <p>A brief 1-2 sentence description of what this project does.</p>
+                    </div>
+                    <div class="card-footer">View Project &#8594;</div>
+                </div>
+            </div>
+
+            <!-- Card 2 (Far Left - Orange) -->
+            <div class="card-wrapper" style="--i:2; --z:2; --tx:-240px; --ty:35px; --rot:24deg; --theme: rgba(249, 115, 22, 0.7);">
+                <div class="interactive-card" onclick="showProject('project2')">
+                    <div class="card-number">02</div>
+                    <div class="card-content">
+                        <h3>[Project Two]</h3>
+                        <p>A brief 1-2 sentence description of what this project does.</p>
+                    </div>
+                    <div class="card-footer">View Project &#8594;</div>
+                </div>
+            </div>
+
+            <!-- Card 3 (Mid Left - Yellow/Gold) -->
+            <div class="card-wrapper" style="--i:3; --z:3; --tx:-160px; --ty:60px; --rot:16deg; --theme: rgba(234, 179, 8, 0.7);">
+                <div class="interactive-card" onclick="showProject('project3')">
+                    <div class="card-number">03</div>
+                    <div class="card-content">
+                        <h3>[Project Three]</h3>
+                        <p>A brief 1-2 sentence description of what this project does.</p>
+                    </div>
+                    <div class="card-footer">View Project &#8594;</div>
+                </div>
+            </div>
+
+            <!-- Card 4 (Center Left - Green) -->
+            <div class="card-wrapper" style="--i:4; --z:4; --tx:-80px; --ty:75px; --rot:8deg; --theme: rgba(34, 197, 94, 0.7);">
+                <div class="interactive-card" onclick="showProject('project4')">
+                    <div class="card-number">04</div>
+                    <div class="card-content">
+                        <h3>[Project Four]</h3>
+                        <p>A brief 1-2 sentence description of what this project does.</p>
+                    </div>
+                    <div class="card-footer">View Project &#8594;</div>
+                </div>
+            </div>
+
+            <!-- Card 5 (Absolute Center - Cyan) -->
+            <div class="card-wrapper" style="--i:5; --z:5; --tx:0px; --ty:80px; --rot:0deg; --theme: rgba(6, 182, 212, 0.7);">
+                <div class="interactive-card" onclick="showProject('project5')">
+                    <div class="card-number">05</div>
+                    <div class="card-content">
+                        <h3>[Project Five]</h3>
+                        <p>A brief 1-2 sentence description of what this project does.</p>
+                    </div>
+                    <div class="card-footer">View Project &#8594;</div>
+                </div>
+            </div>
+
+            <!-- Card 6 (Center Right - Blue) -->
+            <div class="card-wrapper" style="--i:6; --z:6; --tx:80px; --ty:75px; --rot:-8deg; --theme: rgba(59, 130, 246, 0.7);">
+                <div class="interactive-card" onclick="showProject('project6')">
+                    <div class="card-number">06</div>
+                    <div class="card-content">
+                        <h3>[Project Six]</h3>
+                        <p>A brief 1-2 sentence description of what this project does.</p>
+                    </div>
+                    <div class="card-footer">View Project &#8594;</div>
+                </div>
+            </div>
+
+            <!-- Card 7 (Mid Right - Purple) -->
+            <div class="card-wrapper" style="--i:7; --z:7; --tx:160px; --ty:60px; --rot:-16deg; --theme: rgba(139, 92, 246, 0.7);">
+                <div class="interactive-card" onclick="showProject('project7')">
+                    <div class="card-number">07</div>
+                    <div class="card-content">
+                        <h3>[Project Seven]</h3>
+                        <p>A brief 1-2 sentence description of what this project does.</p>
+                    </div>
+                    <div class="card-footer">View Project &#8594;</div>
+                </div>
+            </div>
+
+            <!-- Card 8 (Far Right - Slate/Locked) -->
+            <div class="card-wrapper" style="--i:8; --z:8; --tx:240px; --ty:35px; --rot:-24deg; --theme: rgba(148, 163, 184, 0.4);">
+                <div class="interactive-card locked-card">
+                    <div class="card-number">&Oslash;</div>
+                    <div class="card-content">
+                        <h3>Coming Soon</h3>
+                        <p>This project is currently in active development.</p>
+                    </div>
+                    <div class="card-footer">[ Locked ]</div>
+                </div>
+            </div>
+
+            <!-- Card 9 (Extreme Right - Slate/Locked) -->
+            <div class="card-wrapper" style="--i:9; --z:9; --tx:320px; --ty:0px; --rot:-32deg; --theme: rgba(148, 163, 184, 0.4);">
+                <div class="interactive-card locked-card">
+                    <div class="card-number">&Oslash;</div>
+                    <div class="card-content">
+                        <h3>Coming Soon</h3>
+                        <p>Future project slot reserved for my next big idea.</p>
+                    </div>
+                    <div class="card-footer">[ Locked ]</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= INDIVIDUAL PROJECT PAGES ================= -->
+    
+    <!-- Project 1 Page -->
+    <div id="project1" class="page">
+        <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
+        <div class="project-details">
+            <h2>01. [Project Name One]</h2>
+            <p>Detailed description: Here you can write about the challenges you faced, the technologies you used, and the overall outcome of your first project.</p>
+            <div class="screenshot-grid">
+                <div class="screenshot-placeholder">Screenshot 1</div>
+                <div class="screenshot-placeholder">Screenshot 2</div>
+                <div class="screenshot-placeholder">Screenshot 3</div>
+                <div class="screenshot-placeholder">Screenshot 4</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project 2 Page -->
+    <div id="project2" class="page">
+        <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
+        <div class="project-details">
+            <h2>02. [Project Name Two]</h2>
+            <p>Detailed description: Here you can write about the challenges you faced, the technologies you used, and the overall outcome of your second project.</p>
+            <div class="screenshot-grid">
+                <div class="screenshot-placeholder">Screenshot 1</div>
+                <div class="screenshot-placeholder">Screenshot 2</div>
+                <div class="screenshot-placeholder">Screenshot 3</div>
+                <div class="screenshot-placeholder">Screenshot 4</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project 3 Page -->
+    <div id="project3" class="page">
+        <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
+        <div class="project-details">
+            <h2>03. [Project Name Three]</h2>
+            <p>Detailed description: Explain the background and purpose of project three.</p>
+            <div class="screenshot-grid">
+                <div class="screenshot-placeholder">Screenshot 1</div>
+                <div class="screenshot-placeholder">Screenshot 2</div>
+                <div class="screenshot-placeholder">Screenshot 3</div>
+                <div class="screenshot-placeholder">Screenshot 4</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project 4 Page -->
+    <div id="project4" class="page">
+        <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
+        <div class="project-details">
+            <h2>04. [Project Name Four]</h2>
+            <p>Detailed description: Explain the background and purpose of project four.</p>
+            <div class="screenshot-grid">
+                <div class="screenshot-placeholder">Screenshot 1</div>
+                <div class="screenshot-placeholder">Screenshot 2</div>
+                <div class="screenshot-placeholder">Screenshot 3</div>
+                <div class="screenshot-placeholder">Screenshot 4</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project 5 Page -->
+    <div id="project5" class="page">
+        <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
+        <div class="project-details">
+            <h2>05. [Project Name Five]</h2>
+            <p>Detailed description: Explain the background and purpose of project five.</p>
+            <div class="screenshot-grid">
+                <div class="screenshot-placeholder">Screenshot 1</div>
+                <div class="screenshot-placeholder">Screenshot 2</div>
+                <div class="screenshot-placeholder">Screenshot 3</div>
+                <div class="screenshot-placeholder">Screenshot 4</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project 6 Page -->
+    <div id="project6" class="page">
+        <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
+        <div class="project-details">
+            <h2>06. [Project Name Six]</h2>
+            <p>Detailed description: Explain the background and purpose of project six.</p>
+            <div class="screenshot-grid">
+                <div class="screenshot-placeholder">Screenshot 1</div>
+                <div class="screenshot-placeholder">Screenshot 2</div>
+                <div class="screenshot-placeholder">Screenshot 3</div>
+                <div class="screenshot-placeholder">Screenshot 4</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project 7 Page -->
+    <div id="project7" class="page">
+        <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
+        <div class="project-details">
+            <h2>07. [Project Name Seven]</h2>
+            <p>Detailed description: Explain the background and purpose of your final project.</p>
+            <div class="screenshot-grid">
+                <div class="screenshot-placeholder">Screenshot 1</div>
+                <div class="screenshot-placeholder">Screenshot 2</div>
+                <div class="screenshot-placeholder">Screenshot 3</div>
+                <div class="screenshot-placeholder">Screenshot 4</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function showProject(projectId) {
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(page => {
+            page.classList.remove('active');
+        });
+        document.getElementById(projectId).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showMainPage() {
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(page => {
+            page.classList.remove('active');
+        });
+        document.getElementById('main-page').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
