@@ -4,9 +4,26 @@
             --text-light: #64748b;
             --white-glass: rgba(255, 255, 255, 0.85);
             --border-glass: rgba(255, 255, 255, 0.5);
+            --surface-solid: #ffffff;
+            --surface-muted: rgba(248, 250, 252, 0.95);
+            --surface-soft: rgba(255, 255, 255, 0.6);
+            --background-start: #eef2ff;
+            --background-end: #e2e8f0;
             --accent: #6366f1;
             --accent-dark: #4338ca;
             --accent-light: #818cf8;
+        }
+
+        body.dark-mode {
+            --text-main: #e2e8f0;
+            --text-light: #a8b4c7;
+            --white-glass: rgba(15, 23, 42, 0.86);
+            --border-glass: rgba(148, 163, 184, 0.25);
+            --surface-solid: #1e293b;
+            --surface-muted: rgba(30, 41, 59, 0.95);
+            --surface-soft: rgba(30, 41, 59, 0.72);
+            --background-start: #111827;
+            --background-end: #0f172a;
         }
 
         * {
@@ -18,7 +35,7 @@
 
         body {
             /* Subtle muted slate/indigo background */
-            background: linear-gradient(-45deg, #eef2ff, #e0e7ff, #f1f5f9, #e2e8f0);
+            background: linear-gradient(-45deg, var(--background-start), #e0e7ff, #f1f5f9, var(--background-end));
             background-size: 400% 400%;
             animation: ambientBackground 20s ease infinite;
             color: var(--text-main);
@@ -81,6 +98,44 @@
 
         .navbar a:hover {
             color: var(--accent);
+        }
+
+        .theme-toggle {
+            width: 38px;
+            height: 38px;
+            border: 1px solid var(--border-glass);
+            border-radius: 50%;
+            background: var(--surface-soft);
+            color: var(--text-main);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--surface-solid);
+            border-color: var(--accent);
+            transform: rotate(12deg) scale(1.05);
+        }
+
+        .theme-icon {
+            width: 16px;
+            height: 16px;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .theme-icon::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--surface-solid);
+            top: -5px;
+            left: 5px;
         }
 
         #skills, #experience, #certificates {
@@ -244,7 +299,7 @@
         .interactive-card {
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.95); /* Solid enough to read, slight glass edge */
+            background: var(--surface-solid); /* Solid enough to read, slight glass edge */
             backdrop-filter: blur(10px);
             border-radius: 16px;
             box-shadow: 0px 15px 25px rgba(0,0,0,0.08);
@@ -325,7 +380,7 @@
         /* "Coming Soon" specific styles */
         .locked-card {
             cursor: default; 
-            background: rgba(248, 250, 252, 0.95);
+            background: var(--surface-muted);
         }
         
         .locked-card h3, .locked-card .card-footer {
@@ -417,7 +472,7 @@
         }
 
         .skill-bar {
-            background: rgba(255, 255, 255, 0.6);
+            background: var(--surface-soft);
             border: 1px solid var(--border-glass);
             border-left: 5px solid var(--bar-color, #4facfe);
             border-radius: 12px;
@@ -447,7 +502,7 @@
         }
 
         .skill-tag {
-            background: rgba(255, 255, 255, 0.6);
+            background: var(--surface-soft);
             padding: 8px 18px;
             border-radius: 50px;
             font-size: 0.9rem;
@@ -475,7 +530,7 @@
         }
 
         .experience-box {
-            background: rgba(255, 255, 255, 0.6);
+            background: var(--surface-soft);
             border: 1px solid var(--border-glass);
             border-radius: 16px;
             padding: 30px;
