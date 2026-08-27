@@ -11,6 +11,9 @@
             --text-light: #64748b;
             --white-glass: rgba(255, 255, 255, 0.85);
             --border-glass: rgba(255, 255, 255, 0.5);
+            --accent: #6366f1;
+            --accent-dark: #4338ca;
+            --accent-light: #818cf8;
         }
 
         * {
@@ -21,15 +24,18 @@
         }
 
         body {
-            /* Animated Aurora/Mesh Gradient Background */
-            background: linear-gradient(-45deg, #ffc3a0, #ffafbd, #c2e9fb, #a1c4fd, #e0c3fc);
+            /* Subtle muted slate/indigo background */
+            background: linear-gradient(-45deg, #eef2ff, #e0e7ff, #f1f5f9, #e2e8f0);
             background-size: 400% 400%;
-            animation: ambientBackground 15s ease infinite;
+            animation: ambientBackground 20s ease infinite;
             color: var(--text-main);
             line-height: 1.6;
             min-height: 100vh;
             overflow-x: hidden;
             background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         @keyframes ambientBackground {
@@ -38,10 +44,66 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* --- TOP NAVBAR --- */
+        .navbar {
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background-color: var(--white-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-glass);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 40px;
+        }
+
+        .navbar .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--accent-dark), var(--accent), var(--accent-light));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShine 8s linear infinite;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 900px) {
+            .navbar { padding: 15px 20px; }
+            .navbar ul { gap: 15px; }
+            .navbar a { font-size: 0.8rem; }
+        }
+
         .container {
             max-width: 1100px;
+            width: 100%;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 40px 20px 0 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
 
         /* --- GLOBAL ANIMATIONS --- */
@@ -90,7 +152,7 @@
             color: var(--text-light);
             /* Colorful gradient border for profile pic */
             border: 4px solid transparent;
-            background-image: linear-gradient(#fff, #fff), linear-gradient(135deg, #ff0844, #ffb199, #4facfe, #00f2fe);
+            background-image: linear-gradient(#fff, #fff), linear-gradient(135deg, var(--accent-dark), var(--accent), var(--accent-light));
             background-origin: border-box;
             background-clip: padding-box, border-box;
             animation: borderPulse 3s infinite;
@@ -100,7 +162,7 @@
             font-size: 3rem;
             margin-bottom: 5px;
             /* Animated Gradient Text */
-            background: linear-gradient(to right, #ff0844, #ffb199, #4facfe, #9b51e0, #ff0844);
+            background: linear-gradient(to right, var(--accent-dark), var(--accent), var(--accent-light));
             background-size: 200% auto;
             color: #000;
             background-clip: text;
@@ -134,7 +196,7 @@
         .section-title {
             font-size: 2.5rem;
             margin-bottom: 5px;
-            background: linear-gradient(to right, #4facfe, #9b51e0, #ff0844, #4facfe);
+            background: linear-gradient(to right, var(--accent-dark), var(--accent), var(--accent-light));
             background-size: 200% auto;
             background-clip: text;
             -webkit-background-clip: text;
@@ -277,9 +339,337 @@
             box-shadow: 0 35px 50px rgba(0,0,0,0.1);
         }
 
+        /* --- ADDED SKILLS SECTION STYLES --- */
+        /* Full-bleed saddle-curve: pinched top & bottom edges, edge-to-edge width */
+        .skills-section {
+            background-color: var(--white-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid var(--border-glass);
+            border-bottom: 1px solid var(--border-glass);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 0;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards;
+            animation-delay: 1.2s; /* Appears after cards deal */
+
+            /* Break out to full viewport width */
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            flex: 1;
+
+            padding: 200px 40px 60px 40px;
+
+            /* Top curve mirrors the card fan's parabolic arc (--ty values), scaled to 150px max depth */
+            clip-path: polygon(
+                0% 0px, 5% 28.5px, 10% 54px, 15% 76.5px, 20% 96px, 25% 112.5px, 30% 126px, 35% 136.5px,
+                40% 144px, 45% 148.5px, 50% 150px, 55% 148.5px, 60% 144px, 65% 136.5px, 70% 126px, 75% 112.5px,
+                80% 96px, 85% 76.5px, 90% 54px, 95% 28.5px, 100% 0px,
+                100% 100%, 0% 100%
+            );
+        }
+
+        .skills-inner {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .expertise-block {
+            margin-bottom: 60px;
+        }
+
+        .expertise-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .expertise-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            background: linear-gradient(to right, var(--accent-dark), var(--accent), var(--accent-light));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShine 8s linear infinite;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .skill-bar-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
+
+        .skill-bar {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid var(--border-glass);
+            border-left: 5px solid var(--bar-color, #4facfe);
+            border-radius: 12px;
+            padding: 18px 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-bar:hover {
+            background: #fff;
+            transform: translateX(8px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+
+        .skill-bar h4 {
+            flex: 0 0 190px;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .skill-bar .skill-tags {
+            flex: 1;
+            justify-content: flex-start;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            transition: all 0.3s ease;
+            cursor: default;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-5px);
+            background: #fff;
+            border-color: var(--skill-color);
+            color: var(--skill-color);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 0 12px var(--skill-color);
+        }
+
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            text-align: left;
+        }
+
+        .experience-box {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .experience-box:hover {
+            background: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.08);
+        }
+
+        .experience-box h4 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .experience-box .experience-role {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .experience-box .experience-date {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 14px;
+        }
+
+        .experience-box p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .experience-box-image {
+            width: 100%;
+            height: 150px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 2px dashed var(--accent-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 18px;
+            overflow: hidden;
+        }
+
+        /* Small long box for a fun message, spans both columns */
+        .fun-message-box {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px dashed var(--accent-light);
+            border-radius: 50px;
+            padding: 16px 32px;
+            text-align: center;
+            font-weight: 600;
+            font-style: italic;
+            color: var(--accent-dark);
+            transition: all 0.3s ease;
+        }
+
+        .fun-message-box:hover {
+            background: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+
+        .certificate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .certificate-card {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid var(--border-glass);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .certificate-card:hover {
+            background: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.08);
+        }
+
+        .certificate-card h4 {
+            font-size: 1rem;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .certificate-card span {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-dark);
+        }
+
+        .certificate-card p {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* --- CERTIFICATE MODAL --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            z-index: 500;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--white-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 35px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.25);
+            animation: fadeUp 0.3s ease;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 18px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent);
+        }
+
+        .modal-image-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 2px dashed var(--accent-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .modal-box h4 {
+            font-size: 1.3rem;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .modal-box span {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-dark);
+        }
+
+        .modal-box p {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
         /* --- PROJECT DETAILS VIEW --- */
         .page { display: none; }
-        .page.active { display: block; }
+        .page.active { display: flex; flex-direction: column; flex: 1; }
 
         .page.active .back-btn {
             opacity: 0;
@@ -310,8 +700,8 @@
             background-color: #fff;
             transform: translateX(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            color: #4facfe;
-            border-color: #4facfe;
+            color: var(--accent);
+            border-color: var(--accent);
         }
 
         .project-details {
@@ -327,7 +717,7 @@
         .project-details h2 {
             font-size: 2.2rem;
             margin-bottom: 15px;
-            background: linear-gradient(to right, #4facfe, #9b51e0);
+            background: linear-gradient(to right, var(--accent-dark), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -364,9 +754,9 @@
 
         .screenshot-placeholder:hover {
             transform: scale(1.03);
-            border-color: #4facfe;
+            border-color: var(--accent);
             background-color: #fff;
-            color: #4facfe;
+            color: var(--accent);
             box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
@@ -392,10 +782,35 @@
             }
             .screenshot-grid { grid-template-columns: 1fr; }
             .project-details { padding: 30px 20px; }
+            .skills-section {
+                padding: 40px 20px;
+                clip-path: none;
+                border-radius: 20px;
+                width: auto;
+                left: auto;
+                right: auto;
+                margin-left: 0;
+                margin-right: 0;
+            }
+            .experience-grid { grid-template-columns: 1fr; }
+            .skill-bar { flex-direction: column; align-items: flex-start; }
+            .skill-bar h4 { flex: none; }
+            .skill-bar .skill-tags { justify-content: flex-start; }
         }
     </style>
 </head>
 <body>
+
+<nav class="navbar">
+    <div class="logo">[Your Name]</div>
+    <ul>
+        <li><a href="#main-page" onclick="showMainPage()">Home</a></li>
+        <li><a href="#main-page" onclick="showMainPage()">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#certificates">Certificates</a></li>
+    </ul>
+</nav>
 
 <div class="container">
 
@@ -417,11 +832,10 @@
         </div>
         
         <!-- The U-Curve Card Fan (9 Cards) -->
-        <!-- Notice the new inline variable: --theme assigns a vibrant custom color to every card! -->
         <div class="card-fan-container">
             
             <!-- Card 1 (Extreme Left - Pink) -->
-            <div class="card-wrapper" style="--i:1; --z:1; --tx:-320px; --ty:0px; --rot:32deg; --theme: rgba(236, 72, 153, 0.7);">
+            <div class="card-wrapper" style="--i:1; --z:1; --tx:-320px; --ty:0px; --rot:32deg; --theme: rgba(67, 56, 202, 0.7);">
                 <div class="interactive-card" onclick="showProject('project1')">
                     <div class="card-number">01</div>
                     <div class="card-content">
@@ -433,7 +847,7 @@
             </div>
 
             <!-- Card 2 (Far Left - Orange) -->
-            <div class="card-wrapper" style="--i:2; --z:2; --tx:-240px; --ty:35px; --rot:24deg; --theme: rgba(249, 115, 22, 0.7);">
+            <div class="card-wrapper" style="--i:2; --z:2; --tx:-240px; --ty:35px; --rot:24deg; --theme: rgba(99, 102, 241, 0.7);">
                 <div class="interactive-card" onclick="showProject('project2')">
                     <div class="card-number">02</div>
                     <div class="card-content">
@@ -445,7 +859,7 @@
             </div>
 
             <!-- Card 3 (Mid Left - Yellow/Gold) -->
-            <div class="card-wrapper" style="--i:3; --z:3; --tx:-160px; --ty:60px; --rot:16deg; --theme: rgba(234, 179, 8, 0.7);">
+            <div class="card-wrapper" style="--i:3; --z:3; --tx:-160px; --ty:60px; --rot:16deg; --theme: rgba(129, 140, 248, 0.7);">
                 <div class="interactive-card" onclick="showProject('project3')">
                     <div class="card-number">03</div>
                     <div class="card-content">
@@ -457,7 +871,7 @@
             </div>
 
             <!-- Card 4 (Center Left - Green) -->
-            <div class="card-wrapper" style="--i:4; --z:4; --tx:-80px; --ty:75px; --rot:8deg; --theme: rgba(34, 197, 94, 0.7);">
+            <div class="card-wrapper" style="--i:4; --z:4; --tx:-80px; --ty:75px; --rot:8deg; --theme: rgba(79, 70, 229, 0.7);">
                 <div class="interactive-card" onclick="showProject('project4')">
                     <div class="card-number">04</div>
                     <div class="card-content">
@@ -469,7 +883,7 @@
             </div>
 
             <!-- Card 5 (Absolute Center - Cyan) -->
-            <div class="card-wrapper" style="--i:5; --z:5; --tx:0px; --ty:80px; --rot:0deg; --theme: rgba(6, 182, 212, 0.7);">
+            <div class="card-wrapper" style="--i:5; --z:5; --tx:0px; --ty:80px; --rot:0deg; --theme: rgba(99, 102, 241, 0.8);">
                 <div class="interactive-card" onclick="showProject('project5')">
                     <div class="card-number">05</div>
                     <div class="card-content">
@@ -481,7 +895,7 @@
             </div>
 
             <!-- Card 6 (Center Right - Blue) -->
-            <div class="card-wrapper" style="--i:6; --z:6; --tx:80px; --ty:75px; --rot:-8deg; --theme: rgba(59, 130, 246, 0.7);">
+            <div class="card-wrapper" style="--i:6; --z:6; --tx:80px; --ty:75px; --rot:-8deg; --theme: rgba(67, 56, 202, 0.7);">
                 <div class="interactive-card" onclick="showProject('project6')">
                     <div class="card-number">06</div>
                     <div class="card-content">
@@ -493,7 +907,7 @@
             </div>
 
             <!-- Card 7 (Mid Right - Purple) -->
-            <div class="card-wrapper" style="--i:7; --z:7; --tx:160px; --ty:60px; --rot:-16deg; --theme: rgba(139, 92, 246, 0.7);">
+            <div class="card-wrapper" style="--i:7; --z:7; --tx:160px; --ty:60px; --rot:-16deg; --theme: rgba(129, 140, 248, 0.7);">
                 <div class="interactive-card" onclick="showProject('project7')">
                     <div class="card-number">07</div>
                     <div class="card-content">
@@ -529,6 +943,140 @@
             </div>
 
         </div>
+
+        <!-- ================= EXPERTISE / SKILLS / EXPERIENCE / CERTIFICATES SHAPE ================= -->
+        <div class="skills-section">
+            <div class="skills-inner">
+
+                <div id="skills" class="expertise-block">
+                    <h3 class="expertise-title">Skills</h3>
+                    <div class="skill-bar-list">
+                        <div class="skill-bar" style="--bar-color: #4338ca;">
+                            <h4>Frontend</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag" style="--skill-color: #4338ca;">HTML5</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;">CSS3</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;">JavaScript</span>
+                            </div>
+                        </div>
+                        <div class="skill-bar" style="--bar-color: #6366f1;">
+                            <h4>Frameworks</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag" style="--skill-color: #6366f1;">React.js</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;">Next.js</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;">Vue.js</span>
+                            </div>
+                        </div>
+                        <div class="skill-bar" style="--bar-color: #818cf8;">
+                            <h4>Backend</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag" style="--skill-color: #818cf8;">Node.js</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;">Express</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;">Python</span>
+                            </div>
+                        </div>
+                        <div class="skill-bar" style="--bar-color: #64748b;">
+                            <h4>Databases</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag" style="--skill-color: #64748b;">SQL</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;">MongoDB</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;">PostgreSQL</span>
+                            </div>
+                        </div>
+                        <div class="skill-bar" style="--bar-color: #4338ca;">
+                            <h4>Cloud & DevOps</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag" style="--skill-color: #4338ca;">AWS</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;">Docker</span>
+                                <span class="skill-tag" style="--skill-color: #64748b;">CI/CD</span>
+                            </div>
+                        </div>
+                        <div class="skill-bar" style="--bar-color: #6366f1;">
+                            <h4>Mobile Development</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag" style="--skill-color: #6366f1;">Flutter</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;">React Native</span>
+                            </div>
+                        </div>
+                        <div class="skill-bar" style="--bar-color: #818cf8;">
+                            <h4>Testing & QA</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag" style="--skill-color: #4338ca;">Jest</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;">Cypress</span>
+                            </div>
+                        </div>
+                        <div class="skill-bar" style="--bar-color: #64748b;">
+                            <h4>Design Tools</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag" style="--skill-color: #6366f1;">Figma</span>
+                                <span class="skill-tag" style="--skill-color: #64748b;">Photoshop</span>
+                            </div>
+                        </div>
+                        <div class="skill-bar" style="--bar-color: #4338ca;">
+                            <h4>Version Control</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag" style="--skill-color: #64748b;">Git</span>
+                                <span class="skill-tag" style="--skill-color: #1e293b;">GitHub</span>
+                            </div>
+                        </div>
+                        <div class="skill-bar" style="--bar-color: #6366f1;">
+                            <h4>Soft Skills</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag" style="--skill-color: #4338ca;">Communication</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;">Teamwork</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="experience" class="expertise-block">
+                    <h3 class="expertise-title">Experience</h3>
+                    <div class="experience-grid">
+                        <div class="experience-box">
+                            <div class="experience-box-image">Company Logo / Photo</div>
+                            <h4>[Job Title]</h4>
+                            <span class="experience-role">[Company Name]</span>
+                            <span class="experience-date">[Start] - [End]</span>
+                            <p>Brief description of your responsibilities and achievements in this role.</p>
+                        </div>
+                        <div class="experience-box">
+                            <div class="experience-box-image">Company Logo / Photo</div>
+                            <h4>[Job Title]</h4>
+                            <span class="experience-role">[Company Name]</span>
+                            <span class="experience-date">[Start] - [End]</span>
+                            <p>Brief description of your responsibilities and achievements in this role.</p>
+                        </div>
+                        <div class="fun-message-box">
+                            🚀 Always down to learn something new and build cool things!
+                        </div>
+                    </div>
+                </div>
+
+                <div id="certificates" class="expertise-block">
+                    <h3 class="expertise-title">Certificates</h3>
+                    <div class="certificate-grid">
+                        <div class="certificate-card" onclick="showCertificate('[Certificate Name]', '[Issuing Organization]', '[Date Earned]')">
+                            <h4>[Certificate Name]</h4>
+                            <span>[Issuing Organization]</span>
+                            <p>[Date Earned]</p>
+                        </div>
+                        <div class="certificate-card" onclick="showCertificate('[Certificate Name]', '[Issuing Organization]', '[Date Earned]')">
+                            <h4>[Certificate Name]</h4>
+                            <span>[Issuing Organization]</span>
+                            <p>[Date Earned]</p>
+                        </div>
+                        <div class="certificate-card" onclick="showCertificate('[Certificate Name]', '[Issuing Organization]', '[Date Earned]')">
+                            <h4>[Certificate Name]</h4>
+                            <span>[Issuing Organization]</span>
+                            <p>[Date Earned]</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- ================= END EXPERTISE SHAPE ================= -->
+
     </div>
 
     <!-- ================= INDIVIDUAL PROJECT PAGES ================= -->
@@ -640,6 +1188,17 @@
 
 </div>
 
+<!-- ================= CERTIFICATE MODAL ================= -->
+<div id="certificateModal" class="modal-overlay" onclick="if(event.target === this) closeCertificateModal()">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeCertificateModal()">&times;</button>
+        <div class="modal-image-placeholder">Certificate Image</div>
+        <h4 id="modalCertName"></h4>
+        <span id="modalCertOrg"></span>
+        <p id="modalCertDate"></p>
+    </div>
+</div>
+
 <script>
     function showProject(projectId) {
         const pages = document.querySelectorAll('.page');
@@ -657,6 +1216,17 @@
         });
         document.getElementById('main-page').classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showCertificate(name, org, date) {
+        document.getElementById('modalCertName').textContent = name;
+        document.getElementById('modalCertOrg').textContent = org;
+        document.getElementById('modalCertDate').textContent = date;
+        document.getElementById('certificateModal').classList.add('active');
+    }
+
+    function closeCertificateModal() {
+        document.getElementById('certificateModal').classList.remove('active');
     }
 </script>
 
