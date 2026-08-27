@@ -10,14 +10,14 @@
 
 <nav class="navbar">
     <div class="logo">[Your Name]</div>
-    <ul>
+    <ul class="nav-links">
         <li><a href="#main-page" onclick="showMainPage(event)">Home</a></li>
         <li><a href="#main-page" onclick="showMainPage(event)">Projects</a></li>
         <li><a href="#skills" onclick="scrollToSection(event, 'skills')">Skills</a></li>
         <li><a href="#experience" onclick="scrollToSection(event, 'experience')">Experience</a></li>
-        <li><a href="#certificates" onclick="scrollToSection(event, 'certificates')">Certificates</a></li>
-        <li><button class="theme-toggle" type="button" onclick="toggleDarkMode()" aria-label="Enable dark mode" aria-pressed="false" title="Toggle dark mode"><span class="theme-icon" aria-hidden="true"></span></button></li>
+        <li style="display: none;"><a href="#certificates" onclick="return false;">Certificates</a></li>
     </ul>
+    <button class="theme-toggle" type="button" onclick="toggleDarkMode()" aria-label="Enable dark mode" aria-pressed="false" title="Toggle dark mode"><span class="theme-icon" aria-hidden="true"></span></button>
 </nav>
 
 <div class="container">
@@ -27,16 +27,16 @@
         
         <div class="biodata-section">
             <div class="profile-pic-placeholder">Your Photo Here</div>
-            <h1>[Your Full Name]</h1>
-            <h3>[Your Profession / Title]</h3>
+            <h1>GERARD BOBBY</h1>
+            <h3>Software Engineer</h3>
             <br>
-            <p><strong>About Me:</strong> Hello! I am a passionate creator/developer. This portfolio showcases all the major projects I have built throughout my life. I specialize in [Skill 1], [Skill 2], and [Skill 3].</p>
+            <p><strong>About Me: </strong>As a Software Engineering graduate from Universiti Malaysia Sarawak (UNIMAS), I specialize in full-stack development and creative problem-solving. My professional foundation was built through hands-on projects and an impactful internship at Sarawak Information Systems (SAINS). Additionally, working part-time as a [insert role] has helped me significantly sharpen my soft skills and communication. My journey into tech began with a lifelong passion for video games. Driven by curiosity about how they worked behind the scenes, I transitioned that hobby into a dedicated career in software engineering. Today, my interests span full-stack development, AI evolution, IT governance, machine learning, and game development. Eager to explore new technologies across diverse industries, I am excited to channel my passion into meaningful projects that make a positive impact in the tech world.</p>
             <br>
-            <p>Email: your.email@example.com &nbsp;|&nbsp; Location: [Your City, Country]</p>
+            <p>Email: jeradbobi03@gmail.com &nbsp;|&nbsp; Github: <a href="https://github.com/paragongb" target="_blank" rel="noopener noreferrer">https://github.com/paragongb</a></p>
             
             <hr class="divider">
-            <h2 class="section-title">My Projects</h2>
-            <p class="pick-a-card-text">Hover to pull a card out of the deck & click to view.</p>
+            <h2 class="section-title">Main Projects</h2>
+            <p class="pick-a-card-text">These are my self projects aside from assignments given during my studies.</p>
         </div>
         
         <!-- The U-Curve Card Fan (9 Cards) -->
@@ -47,8 +47,8 @@
                 <div class="interactive-card" onclick="showProject('project1')">
                     <div class="card-number">01</div>
                     <div class="card-content">
-                        <h3>[Project One]</h3>
-                        <p>A brief 1-2 sentence description of what this project does.</p>
+                        <h3>E-Commerce For Local Business</h3>
+                        <p>An e-commerce platform designed to help my mom to sell her products online efficiently.</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -59,8 +59,8 @@
                 <div class="interactive-card" onclick="showProject('project2')">
                     <div class="card-number">02</div>
                     <div class="card-content">
-                        <h3>[Project Two]</h3>
-                        <p>A brief 1-2 sentence description of what this project does.</p>
+                        <h3>Sign Language Learning Web Application</h3>
+                        <p>A free-for-all learning platfrom for learning ASL. ML was injected to help to improve hand signs accuracy.</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -71,8 +71,8 @@
                 <div class="interactive-card" onclick="showProject('project3')">
                     <div class="card-number">03</div>
                     <div class="card-content">
-                        <h3>[Project Three]</h3>
-                        <p>A brief 1-2 sentence description of what this project does.</p>
+                        <h3>Simple Game Engine (Ongoing)</h3>
+                        <p>A game engine built to facilitate the creation of 2D games, currently under development (opens to anyone to join).</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -83,8 +83,8 @@
                 <div class="interactive-card" onclick="showProject('project4')">
                     <div class="card-number">04</div>
                     <div class="card-content">
-                        <h3>[Project Four]</h3>
-                        <p>A brief 1-2 sentence description of what this project does.</p>
+                        <h3>Main Portfolio (Hardcoded)</h3>
+                        <p>The main portfolio showcasing my key projects and achievements.</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -95,8 +95,8 @@
                 <div class="interactive-card" onclick="showProject('project5')">
                     <div class="card-number">05</div>
                     <div class="card-content">
-                        <h3>[Project Five]</h3>
-                        <p>A brief 1-2 sentence description of what this project does.</p>
+                        <h3>Game Compilation</h3>
+                        <p>A compilation of various games developed for fun.</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -107,8 +107,8 @@
                 <div class="interactive-card" onclick="showProject('project6')">
                     <div class="card-number">06</div>
                     <div class="card-content">
-                        <h3>[Project Six]</h3>
-                        <p>A brief 1-2 sentence description of what this project does.</p>
+                        <h3>Oil Palm Disease Detector</h3>
+                        <p>A ML-based tool for detecting diseases in oil palm, aiding in early intervention and crop management.</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -119,8 +119,8 @@
                 <div class="interactive-card" onclick="showProject('project7')">
                     <div class="card-number">07</div>
                     <div class="card-content">
-                        <h3>[Project Seven]</h3>
-                        <p>A brief 1-2 sentence description of what this project does.</p>
+                        <h3>Digital Piano</h3>
+                        <p>A digital piano project that allows users to play and export MIDI files.</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -162,62 +162,62 @@
                         <div class="skill-bar" style="--bar-color: #4338ca;">
                             <h4>Frontend</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #4338ca;">HTML5</span>
-                                <span class="skill-tag" style="--skill-color: #6366f1;">CSS3</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;">HTML</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;">C##</span>
                                 <span class="skill-tag" style="--skill-color: #818cf8;">JavaScript</span>
-                            </div>
-                        </div>
-                        <div class="skill-bar" style="--bar-color: #6366f1;">
-                            <h4>Frameworks</h4>
-                            <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #6366f1;">React.js</span>
-                                <span class="skill-tag" style="--skill-color: #4338ca;">Next.js</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;">TypeScript</span>
                                 <span class="skill-tag" style="--skill-color: #818cf8;">Vue.js</span>
                             </div>
                         </div>
-                        <div class="skill-bar" style="--bar-color: #818cf8;">
+                        <div class="skill-bar" style="--bar-color: #6366f1;">
                             <h4>Backend</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #818cf8;">Node.js</span>
-                                <span class="skill-tag" style="--skill-color: #4338ca;">Express</span>
-                                <span class="skill-tag" style="--skill-color: #6366f1;">Python</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;">C</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;">C++</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;">Assembly</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;">Python</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;">Java</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;">Lua</span>
+                            </div>
+                        </div>
+                        <div class="skill-bar" style="--bar-color: #818cf8;">
+                            <h4>Graphic Designing</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag" style="--skill-color: #818cf8;">Figma</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #64748b;">
                             <h4>Databases</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #64748b;">SQL</span>
-                                <span class="skill-tag" style="--skill-color: #6366f1;">MongoDB</span>
-                                <span class="skill-tag" style="--skill-color: #4338ca;">PostgreSQL</span>
+                                <span class="skill-tag" style="--skill-color: #64748b;">PHP</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;">MySQL</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;">SQLite</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #4338ca;">
                             <h4>Cloud & DevOps</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #4338ca;">AWS</span>
                                 <span class="skill-tag" style="--skill-color: #818cf8;">Docker</span>
-                                <span class="skill-tag" style="--skill-color: #64748b;">CI/CD</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #6366f1;">
                             <h4>Mobile Development</h4>
                             <div class="skill-tags">
                                 <span class="skill-tag" style="--skill-color: #6366f1;">Flutter</span>
-                                <span class="skill-tag" style="--skill-color: #818cf8;">React Native</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #818cf8;">
-                            <h4>Testing & QA</h4>
+                            <h4>Game Development</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #4338ca;">Jest</span>
-                                <span class="skill-tag" style="--skill-color: #818cf8;">Cypress</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;">Unity</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;">Roblox Studio</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #64748b;">
-                            <h4>Design Tools</h4>
+                            <h4>Artificial Intelligence</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #6366f1;">Figma</span>
-                                <span class="skill-tag" style="--skill-color: #64748b;">Photoshop</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;">TensorFlow</span>
+                                <span class="skill-tag" style="--skill-color: #64748b;">PyTorch</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #4338ca;">
@@ -228,24 +228,36 @@
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #6366f1;">
-                            <h4>Soft Skills</h4>
+                            <h4>Microsoft Office</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #4338ca;">Communication</span>
-                                <span class="skill-tag" style="--skill-color: #6366f1;">Teamwork</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;">Word</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;">Excel</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;">PowerPoint</span>
+                            </div>
+                        </div>
+                        <div class="skill-bar" style="--bar-color: #6366f1;">
+                            <h4>Others</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag" style="--skill-color: #4338ca;">CapCut</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;">Canva</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;">Shopee Seller Center</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;">Trello</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;">AI Prompting</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div id="experience" class="expertise-block">
-                    <h3 class="expertise-title">Experience</h3>
+                    <h3 class="expertise-title">Work Experience</h3>
                     <div class="experience-grid">
                         <div class="experience-box">
                             <div class="experience-box-image">Company Logo / Photo</div>
-                            <h4>[Job Title]</h4>
-                            <span class="experience-role">[Company Name]</span>
-                            <span class="experience-date">[Start] - [End]</span>
-                            <p>Brief description of your responsibilities and achievements in this role.</p>
+                            <div class="experience-box-image">Company Logo / Photo</div>
+                            <h4>INDUSTRIAL TRAINEE</h4>
+                            <span class="experience-role">Sarawak Information Systems Sdn. Bhd.</span>
+                            <span class="experience-date">March 2025 - August 2025</span>
+                            <p></p>
                         </div>
                         <div class="experience-box">
                             <div class="experience-box-image">Company Logo / Photo</div>
@@ -255,12 +267,12 @@
                             <p>Brief description of your responsibilities and achievements in this role.</p>
                         </div>
                         <div class="fun-message-box">
-                            🚀 Always down to learn something new and build cool things!
+                            Offer me jobs, so that I can gain valuable experience, contribute to exciting projects, and more pictures in my portfolio will be added.
                         </div>
                     </div>
                 </div>
 
-                <div id="certificates" class="expertise-block">
+                <div id="certificates" class="expertise-block" style="display: none;">
                     <h3 class="expertise-title">Certificates</h3>
                     <div class="certificate-grid">
                         <div class="certificate-card" onclick="showCertificate('[Certificate Name]', '[Issuing Organization]', '[Date Earned]')">
