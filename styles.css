@@ -81,6 +81,21 @@ body {
     animation: textShine 8s linear infinite;
 }
 
+/* --- HAMBURGER MENU BUTTON (Hidden on Desktop) --- */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.menu-toggle:hover {
+    color: var(--accent);
+}
+
 .navbar ul {
     list-style: none;
     display: flex;
@@ -145,12 +160,6 @@ body {
 
 #skills, #experience, #certificates, #coursework {
     scroll-margin-top: 90px;
-}
-
-@media (max-width: 900px) {
-    .navbar { padding: 15px 20px; }
-    .navbar ul { gap: 15px; }
-    .navbar a { font-size: 0.8rem; }
 }
 
 .container {
@@ -851,6 +860,63 @@ body {
 
 /* --- MOBILE RESPONSIVE --- */
 @media (max-width: 900px) {
+    .navbar { 
+        padding: 15px 20px; 
+    }
+    
+    /* Show Hamburger Menu */
+    .menu-toggle {
+        display: block;
+        order: 2; 
+    }
+    
+    /* Move Theme Toggle next to Hamburger */
+    .theme-toggle {
+        margin-left: auto;
+        margin-right: 20px;
+        order: 1;
+    }
+
+    /* Transform nav-links into a hidden dropdown */
+    .navbar .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        transform: none; 
+        background-color: var(--white-glass);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        flex-direction: column;
+        padding: 0;
+        gap: 0;
+        border-top: 1px solid var(--border-glass);
+        box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+        
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.4s ease;
+    }
+
+    /* Active state for dropdown */
+    .navbar .nav-links.active {
+        max-height: 400px;
+        opacity: 1;
+        padding: 15px 0;
+    }
+
+    .navbar .nav-links li {
+        width: 100%;
+        text-align: center;
+        padding: 15px 0;
+    }
+
+    .navbar a { 
+        font-size: 1rem; 
+        display: block;
+    }
+
     .biodata-section { margin-bottom: 20px; padding: 40px 20px; }
     .card-fan-container {
         display: grid;
@@ -886,14 +952,7 @@ body {
     .skill-bar h4 { flex: none; }
     .skill-bar .skill-tags { justify-content: flex-start; }
     
-    .modal-box { 
-        padding: 25px 20px; 
-    }
-    .modal-close { 
-        top: 10px; 
-        right: 15px; 
-    }
-    .modal-image-placeholder {
-        aspect-ratio: 1 / 1; 
-    }
+    .modal-box { padding: 25px 20px; }
+    .modal-close { top: 10px; right: 15px; }
+    .modal-image-placeholder { aspect-ratio: 1 / 1; }
 }

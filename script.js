@@ -1,3 +1,18 @@
+// --- MOBILE MENU LOGIC ---
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+});
+
+function closeMobileMenu() {
+    if (navLinks.classList.contains('active')) {
+        navLinks.classList.remove('active');
+    }
+}
+
+// --- THEME LOGIC ---
 const themeToggle = document.querySelector('.theme-toggle');
 
 function setDarkMode(isDark) {
@@ -15,6 +30,8 @@ function toggleDarkMode() {
 
 setDarkMode(localStorage.getItem('darkMode') === 'true');
 
+
+// --- NAVIGATION LOGIC ---
 function showProject(projectId) {
     const pages = document.querySelectorAll('.page');
     pages.forEach(page => {
@@ -32,6 +49,8 @@ function showMainPage(event) {
     });
     document.getElementById('main-page').classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    closeMobileMenu(); 
 }
 
 function scrollToSection(event, sectionId) {
@@ -41,8 +60,12 @@ function scrollToSection(event, sectionId) {
         if (page.id !== 'main-page') page.classList.remove('active');
     });
     document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    closeMobileMenu(); 
 }
 
+
+// --- MODAL LOGIC ---
 function showCertificate(name, org, date, imageCount = 1) {
     document.getElementById('modalCertName').textContent = name;
     document.getElementById('modalCertOrg').textContent = org;
