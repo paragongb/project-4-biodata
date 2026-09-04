@@ -16,40 +16,75 @@ function toggleDarkMode() {
 setDarkMode(localStorage.getItem('darkMode') === 'true');
 
 function showProject(projectId) {
-        const pages = document.querySelectorAll('.page');
-        pages.forEach(page => {
-            page.classList.remove('active');
-        });
-        document.getElementById(projectId).classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => {
+        page.classList.remove('active');
+    });
+    document.getElementById(projectId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showMainPage(event) {
+    if (event) event.preventDefault();
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => {
+        page.classList.remove('active');
+    });
+    document.getElementById('main-page').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function scrollToSection(event, sectionId) {
+    if (event) event.preventDefault();
+    document.getElementById('main-page').classList.add('active');
+    document.querySelectorAll('.page').forEach(page => {
+        if (page.id !== 'main-page') page.classList.remove('active');
+    });
+    document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function showCertificate(name, org, date, imageCount = 1) {
+    document.getElementById('modalCertName').textContent = name;
+    document.getElementById('modalCertOrg').textContent = org;
+    document.getElementById('modalCertDate').textContent = date;
+
+    const imageContainer = document.getElementById('modalImageContainer');
+    imageContainer.innerHTML = ''; 
+
+    for (let i = 1; i <= imageCount; i++) {
+        const imgPlaceholder = document.createElement('div');
+        imgPlaceholder.className = 'modal-image-placeholder';
+        imgPlaceholder.textContent = `Certificate Image ${i}`;
+        imageContainer.appendChild(imgPlaceholder);
     }
 
-    function showMainPage(event) {
-        if (event) event.preventDefault();
-        const pages = document.querySelectorAll('.page');
-        pages.forEach(page => {
-            page.classList.remove('active');
-        });
-        document.getElementById('main-page').classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('certificateModal').classList.add('active');
+}
+
+function closeCertificateModal() {
+    document.getElementById('certificateModal').classList.remove('active');
+}
+
+function showCoursework(title, description, pdfLink, imageCount = 1) {
+    document.getElementById('cwModalTitle').textContent = title;
+    document.getElementById('cwModalDesc').textContent = description;
+    
+    const pdfBtn = document.getElementById('cwModalPdf');
+    pdfBtn.href = pdfLink;
+
+    const imageContainer = document.getElementById('cwModalImageContainer');
+    imageContainer.innerHTML = ''; 
+
+    for (let i = 1; i <= imageCount; i++) {
+        const imgPlaceholder = document.createElement('div');
+        imgPlaceholder.className = 'modal-image-placeholder';
+        imgPlaceholder.textContent = `Coursework Image ${i}`;
+        imageContainer.appendChild(imgPlaceholder);
     }
 
-    function scrollToSection(event, sectionId) {
-        if (event) event.preventDefault();
-        document.getElementById('main-page').classList.add('active');
-        document.querySelectorAll('.page').forEach(page => {
-            if (page.id !== 'main-page') page.classList.remove('active');
-        });
-        document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    document.getElementById('courseworkModal').classList.add('active');
+}
 
-    function showCertificate(name, org, date) {
-        document.getElementById('modalCertName').textContent = name;
-        document.getElementById('modalCertOrg').textContent = org;
-        document.getElementById('modalCertDate').textContent = date;
-        document.getElementById('certificateModal').classList.add('active');
-    }
-
-    function closeCertificateModal() {
-        document.getElementById('certificateModal').classList.remove('active');
-    }
+function closeCourseworkModal() {
+    document.getElementById('courseworkModal').classList.remove('active');
+}

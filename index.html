@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Portfolio</title>
-        <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -15,7 +15,8 @@
         <li><a href="#main-page" onclick="showMainPage(event)">Projects</a></li>
         <li><a href="#skills" onclick="scrollToSection(event, 'skills')">Skills</a></li>
         <li><a href="#experience" onclick="scrollToSection(event, 'experience')">Experience</a></li>
-        <li style="display: none;"><a href="#certificates" onclick="return false;">Certificates</a></li>
+        <li><a href="#certificates" onclick="scrollToSection(event, 'certificates')">Certificates</a></li>
+        <li><a href="#coursework" onclick="scrollToSection(event, 'coursework')">Coursework</a></li>
     </ul>
     <button class="theme-toggle" type="button" onclick="toggleDarkMode()" aria-label="Enable dark mode" aria-pressed="false" title="Toggle dark mode"><span class="theme-icon" aria-hidden="true"></span></button>
 </nav>
@@ -253,7 +254,6 @@
                     <div class="experience-grid">
                         <div class="experience-box">
                             <div class="experience-box-image">Company Logo / Photo</div>
-                            <div class="experience-box-image">Company Logo / Photo</div>
                             <h4>INDUSTRIAL TRAINEE</h4>
                             <span class="experience-role">Sarawak Information Systems Sdn. Bhd.</span>
                             <span class="experience-date">March 2025 - August 2025</span>
@@ -272,10 +272,10 @@
                     </div>
                 </div>
 
-                <div id="certificates" class="expertise-block" style="display: none;">
+                <div id="certificates" class="expertise-block">
                     <h3 class="expertise-title">Certificates</h3>
                     <div class="certificate-grid">
-                        <div class="certificate-card" onclick="showCertificate('[Certificate Name]', '[Issuing Organization]', '[Date Earned]')">
+                        <div class="certificate-card" onclick="showCertificate('[Certificate Name]', '[Issuing Organization]', '[Date Earned]', 10)">
                             <h4>[Certificate Name]</h4>
                             <span>[Issuing Organization]</span>
                             <p>[Date Earned]</p>
@@ -289,6 +289,44 @@
                             <h4>[Certificate Name]</h4>
                             <span>[Issuing Organization]</span>
                             <p>[Date Earned]</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="coursework" class="expertise-block">
+                    <h3 class="expertise-title">Coursework</h3>
+                    <div class="coursework-grid">
+                        <div class="coursework-card" onclick="showCoursework('Coursework 1', 'Description of the coursework project, the tools used, and the final outcome.', 'sample1.pdf', 3)">
+                            <h4>Coursework 1</h4>
+                            <p>Short summary of project 1.</p>
+                        </div>
+                        <div class="coursework-card" onclick="showCoursework('Coursework 2', 'Detailed description for coursework 2 goes here.', 'sample2.pdf', 2)">
+                            <h4>Coursework 2</h4>
+                            <p>Short summary of project 2.</p>
+                        </div>
+                        <div class="coursework-card" onclick="showCoursework('Coursework 3', 'Detailed description for coursework 3 goes here.', 'sample3.pdf', 1)">
+                            <h4>Coursework 3</h4>
+                            <p>Short summary of project 3.</p>
+                        </div>
+                        <div class="coursework-card" onclick="showCoursework('Coursework 4', 'Detailed description for coursework 4 goes here.', 'sample4.pdf', 2)">
+                            <h4>Coursework 4</h4>
+                            <p>Short summary of project 4.</p>
+                        </div>
+                        <div class="coursework-card" onclick="showCoursework('Coursework 5', 'Detailed description for coursework 5 goes here.', 'sample5.pdf', 1)">
+                            <h4>Coursework 5</h4>
+                            <p>Short summary of project 5.</p>
+                        </div>
+                        <div class="coursework-card" onclick="showCoursework('Coursework 6', 'Detailed description for coursework 6 goes here.', 'sample6.pdf', 3)">
+                            <h4>Coursework 6</h4>
+                            <p>Short summary of project 6.</p>
+                        </div>
+                        <div class="coursework-card" onclick="showCoursework('Coursework 7', 'Detailed description for coursework 7 goes here.', 'sample7.pdf', 1)">
+                            <h4>Coursework 7</h4>
+                            <p>Short summary of project 7.</p>
+                        </div>
+                        <div class="coursework-card" onclick="showCoursework('Coursework 8', 'Detailed description for coursework 8 goes here.', 'sample8.pdf', 2)">
+                            <h4>Coursework 8</h4>
+                            <p>Short summary of project 8.</p>
                         </div>
                     </div>
                 </div>
@@ -412,14 +450,25 @@
 <div id="certificateModal" class="modal-overlay" onclick="if(event.target === this) closeCertificateModal()">
     <div class="modal-box">
         <button class="modal-close" onclick="closeCertificateModal()">&times;</button>
-        <div class="modal-image-placeholder">Certificate Image</div>
+        <div id="modalImageContainer"></div>
         <h4 id="modalCertName"></h4>
         <span id="modalCertOrg"></span>
         <p id="modalCertDate"></p>
     </div>
 </div>
 
-    <script src="script.js"></script>
+<!-- ================= COURSEWORK MODAL ================= -->
+<div id="courseworkModal" class="modal-overlay" onclick="if(event.target === this) closeCourseworkModal()">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeCourseworkModal()">&times;</button>
+        <div id="cwModalImageContainer"></div>
+        <h4 id="cwModalTitle"></h4>
+        <p id="cwModalDesc" style="margin-bottom: 25px;"></p>
+        <a id="cwModalPdf" href="#" class="back-btn" target="_blank" download style="display: inline-block; text-decoration: none;">&#128196; Download PDF</a>
+    </div>
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
