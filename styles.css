@@ -1020,6 +1020,43 @@ body {
     color: var(--text-main);
 }
 
+.project-videos {
+    margin-top: 30px;
+}
+
+.project-videos h3 {
+    color: var(--accent-dark);
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.video-grid figure {
+    overflow: hidden;
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    background: var(--surface-soft);
+}
+
+.video-grid video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #0f172a;
+}
+
+.video-grid figcaption {
+    padding: 9px 12px;
+    color: var(--text-light);
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
 .screenshot-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1156,6 +1193,7 @@ body {
         margin-right: 0;
     }
     .experience-grid { grid-template-columns: 1fr; }
+    .video-grid { grid-template-columns: 1fr; }
     .skill-bar { flex-direction: column; align-items: flex-start; }
     .skill-bar h4 { flex: none; }
     .skill-bar .skill-tags { justify-content: flex-start; }
