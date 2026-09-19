@@ -20,7 +20,7 @@
         <li><a href="#skills" onclick="scrollToSection(event, 'skills')">Skills</a></li>
         <li><a href="#experience" onclick="scrollToSection(event, 'experience')">Experience</a></li>
         <li><a href="#certificates" onclick="scrollToSection(event, 'certificates')">Certificates</a></li>
-        <li><a href="#coursework" onclick="scrollToSection(event, 'coursework')">Coursework</a></li>
+        <li id="courseworkNavItem" class="coursework-nav-item"><a href="#coursework" onclick="scrollToSection(event, 'coursework')">Coursework</a></li>
     </ul>
     
     <button class="theme-toggle" type="button" onclick="toggleDarkMode()" aria-label="Enable dark mode" aria-pressed="false" title="Toggle dark mode"><span class="theme-icon" aria-hidden="true"></span></button>
@@ -53,8 +53,8 @@
                 <div class="interactive-card" onclick="showProject('project1')">
                     <div class="card-number">01</div>
                     <div class="card-content">
-                        <h3>E-Commerce For Local Business</h3>
-                        <p>An e-commerce platform designed to help my mom to sell her products online efficiently.</p>
+                        <h3>E-Commerce Web Application</h3>
+                        <p>An independent online-store prototype for handmade traditional clothing.</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -66,7 +66,7 @@
                     <div class="card-number">02</div>
                     <div class="card-content">
                         <h3>Sign Language Learning Web Application</h3>
-                        <p>A free-for-all learning platfrom for learning ASL. ML was injected to help to improve hand signs accuracy.</p>
+                        <p>An accessible ASL-learning platform with quizzes, a dictionary, and translation tools.</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -77,8 +77,8 @@
                 <div class="interactive-card" onclick="showProject('project3')">
                     <div class="card-number">03</div>
                     <div class="card-content">
-                        <h3>Simple Game Engine (Ongoing)</h3>
-                        <p>A game engine built to facilitate the creation of 2D games, currently under development (opens to anyone to join).</p>
+                        <h3>Steal A Dungeon</h3>
+                        <p>An alpha roguelike game published on Roblox, built to explore game development.</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -89,8 +89,8 @@
                 <div class="interactive-card" onclick="showProject('project4')">
                     <div class="card-number">04</div>
                     <div class="card-content">
-                        <h3>Main Portfolio (Hardcoded)</h3>
-                        <p>The main portfolio showcasing my key projects and achievements.</p>
+                        <h3>Personal Portfolio Website</h3>
+                        <p>A publicly hosted portfolio for projects, skills, certificates, and UI/UX work.</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -101,8 +101,8 @@
                 <div class="interactive-card" onclick="showProject('project5')">
                     <div class="card-number">05</div>
                     <div class="card-content">
-                        <h3>Game Compilation</h3>
-                        <p>A compilation of various games developed for fun.</p>
+                        <h3>Data Structures &amp; Algorithms Through Games</h3>
+                        <p>Seven Java games that make core DSA concepts practical and visual.</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -113,8 +113,8 @@
                 <div class="interactive-card" onclick="showProject('project6')">
                     <div class="card-number">06</div>
                     <div class="card-content">
-                        <h3>Oil Palm Disease Detector</h3>
-                        <p>A ML-based tool for detecting diseases in oil palm, aiding in early intervention and crop management.</p>
+                        <h3>Oil Palm Leaf Disease Detection</h3>
+                        <p>An EfficientNetB0 prototype for image-based oil-palm leaf screening.</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -126,7 +126,7 @@
                     <div class="card-number">07</div>
                     <div class="card-content">
                         <h3>Digital Piano</h3>
-                        <p>A digital piano project that allows users to play and export MIDI files.</p>
+                        <p>A desktop piano with sampled audio, MIDI playback, and falling-note guidance.</p>
                     </div>
                     <div class="card-footer">View Project &#8594;</div>
                 </div>
@@ -168,11 +168,11 @@
                         <div class="skill-bar" style="--bar-color: #4338ca;">
                             <h4>Frontend</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #4338ca;">HTML</span>
-                                <span class="skill-tag" style="--skill-color: #6366f1;">C##</span>
-                                <span class="skill-tag" style="--skill-color: #818cf8;">JavaScript</span>
-                                <span class="skill-tag" style="--skill-color: #818cf8;">TypeScript</span>
-                                <span class="skill-tag" style="--skill-color: #818cf8;">Vue.js</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;"><img class="skill-icon" src="https://cdn.simpleicons.org/html5/E34F26" alt="" aria-hidden="true">HTML</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;"><img class="skill-icon" src="https://cdn.simpleicons.org/csharp/512BD4" alt="" aria-hidden="true">C#</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;"><img class="skill-icon" src="https://cdn.simpleicons.org/javascript/F7DF1E" alt="" aria-hidden="true">JavaScript</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;"><img class="skill-icon" src="https://cdn.simpleicons.org/typescript/3178C6" alt="" aria-hidden="true">TypeScript</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;"><img class="skill-icon" src="https://cdn.simpleicons.org/vuedotjs/4FC08D" alt="" aria-hidden="true">Vue.js</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #6366f1;">
@@ -181,73 +181,73 @@
                                 <span class="skill-tag" style="--skill-color: #6366f1;">C</span>
                                 <span class="skill-tag" style="--skill-color: #4338ca;">C++</span>
                                 <span class="skill-tag" style="--skill-color: #818cf8;">Assembly</span>
-                                <span class="skill-tag" style="--skill-color: #818cf8;">Python</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;"><img class="skill-icon" src="https://cdn.simpleicons.org/python/3776AB" alt="" aria-hidden="true">Python</span>
                                 <span class="skill-tag" style="--skill-color: #818cf8;">Java</span>
-                                <span class="skill-tag" style="--skill-color: #818cf8;">Lua</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;"><img class="skill-icon" src="https://cdn.simpleicons.org/lua/2C2D72" alt="" aria-hidden="true">Lua</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #818cf8;">
                             <h4>Graphic Designing</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #818cf8;">Figma</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;"><img class="skill-icon" src="https://cdn.simpleicons.org/figma/F24E1E" alt="" aria-hidden="true">Figma</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #64748b;">
                             <h4>Databases</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #64748b;">PHP</span>
-                                <span class="skill-tag" style="--skill-color: #6366f1;">MySQL</span>
-                                <span class="skill-tag" style="--skill-color: #4338ca;">SQLite</span>
+                                <span class="skill-tag" style="--skill-color: #64748b;"><img class="skill-icon" src="https://cdn.simpleicons.org/php/777BB4" alt="" aria-hidden="true">PHP</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;"><img class="skill-icon" src="https://cdn.simpleicons.org/mysql/4479A1" alt="" aria-hidden="true">MySQL</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;"><img class="skill-icon" src="https://cdn.simpleicons.org/sqlite/003B57" alt="" aria-hidden="true">SQLite</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #4338ca;">
                             <h4>Cloud & DevOps</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #818cf8;">Docker</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;"><img class="skill-icon" src="https://cdn.simpleicons.org/docker/2496ED" alt="" aria-hidden="true">Docker</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #6366f1;">
                             <h4>Mobile Development</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #6366f1;">Flutter</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;"><img class="skill-icon" src="https://cdn.simpleicons.org/flutter/02569B" alt="" aria-hidden="true">Flutter</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #818cf8;">
                             <h4>Game Development</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #4338ca;">Unity</span>
-                                <span class="skill-tag" style="--skill-color: #818cf8;">Roblox Studio</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;"><img class="skill-icon" src="https://cdn.simpleicons.org/unity/1E293B" alt="" aria-hidden="true">Unity</span>
+                                <span class="skill-tag" style="--skill-color: #818cf8;"><img class="skill-icon" src="https://cdn.simpleicons.org/roblox/E2231A" alt="" aria-hidden="true">Roblox Studio</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #64748b;">
                             <h4>Artificial Intelligence</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #6366f1;">TensorFlow</span>
-                                <span class="skill-tag" style="--skill-color: #64748b;">PyTorch</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;"><img class="skill-icon" src="https://cdn.simpleicons.org/tensorflow/FF6F00" alt="" aria-hidden="true">TensorFlow</span>
+                                <span class="skill-tag" style="--skill-color: #64748b;"><img class="skill-icon" src="https://cdn.simpleicons.org/pytorch/EE4C2C" alt="" aria-hidden="true">PyTorch</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #4338ca;">
                             <h4>Version Control</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #64748b;">Git</span>
-                                <span class="skill-tag" style="--skill-color: #1e293b;">GitHub</span>
+                                <span class="skill-tag" style="--skill-color: #64748b;"><img class="skill-icon" src="https://cdn.simpleicons.org/git/F05032" alt="" aria-hidden="true">Git</span>
+                                <span class="skill-tag" style="--skill-color: #1e293b;"><img class="skill-icon" src="https://cdn.simpleicons.org/github/181717" alt="" aria-hidden="true">GitHub</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #6366f1;">
                             <h4>Microsoft Office</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #4338ca;">Word</span>
-                                <span class="skill-tag" style="--skill-color: #6366f1;">Excel</span>
-                                <span class="skill-tag" style="--skill-color: #4338ca;">PowerPoint</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;"><img class="skill-icon" src="https://cdn.simpleicons.org/microsoftword/2B579A" alt="" aria-hidden="true">Word</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;"><img class="skill-icon" src="https://cdn.simpleicons.org/microsoftexcel/217346" alt="" aria-hidden="true">Excel</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;"><img class="skill-icon" src="https://cdn.simpleicons.org/microsoftpowerpoint/B7472A" alt="" aria-hidden="true">PowerPoint</span>
                             </div>
                         </div>
                         <div class="skill-bar" style="--bar-color: #6366f1;">
                             <h4>Others</h4>
                             <div class="skill-tags">
-                                <span class="skill-tag" style="--skill-color: #4338ca;">CapCut</span>
-                                <span class="skill-tag" style="--skill-color: #6366f1;">Canva</span>
-                                <span class="skill-tag" style="--skill-color: #4338ca;">Shopee Seller Center</span>
-                                <span class="skill-tag" style="--skill-color: #6366f1;">Trello</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;"><img class="skill-icon" src="https://cdn.simpleicons.org/capcut/000000" alt="" aria-hidden="true">CapCut</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;"><img class="skill-icon" src="https://cdn.simpleicons.org/canva/00C4CC" alt="" aria-hidden="true">Canva</span>
+                                <span class="skill-tag" style="--skill-color: #4338ca;"><img class="skill-icon" src="https://cdn.simpleicons.org/shopee/EE4D2D" alt="" aria-hidden="true">Shopee Seller Center</span>
+                                <span class="skill-tag" style="--skill-color: #6366f1;"><img class="skill-icon" src="https://cdn.simpleicons.org/trello/0052CC" alt="" aria-hidden="true">Trello</span>
                                 <span class="skill-tag" style="--skill-color: #4338ca;">AI Prompting</span>
                             </div>
                         </div>
@@ -300,39 +300,15 @@
 
                 <div id="coursework" class="expertise-block">
                     <h3 class="expertise-title">Coursework</h3>
-                    <div class="coursework-grid">
-                        <div class="coursework-card" onclick="showCoursework('Coursework 1', 'Description of the coursework project, the tools used, and the final outcome.', 'sample1.pdf', 3)">
-                            <h4>Coursework 1</h4>
-                            <p>Short summary of project 1.</p>
-                        </div>
-                        <div class="coursework-card" onclick="showCoursework('Coursework 2', 'Detailed description for coursework 2 goes here.', 'sample2.pdf', 2)">
-                            <h4>Coursework 2</h4>
-                            <p>Short summary of project 2.</p>
-                        </div>
-                        <div class="coursework-card" onclick="showCoursework('Coursework 3', 'Detailed description for coursework 3 goes here.', 'sample3.pdf', 1)">
-                            <h4>Coursework 3</h4>
-                            <p>Short summary of project 3.</p>
-                        </div>
-                        <div class="coursework-card" onclick="showCoursework('Coursework 4', 'Detailed description for coursework 4 goes here.', 'sample4.pdf', 2)">
-                            <h4>Coursework 4</h4>
-                            <p>Short summary of project 4.</p>
-                        </div>
-                        <div class="coursework-card" onclick="showCoursework('Coursework 5', 'Detailed description for coursework 5 goes here.', 'sample5.pdf', 1)">
-                            <h4>Coursework 5</h4>
-                            <p>Short summary of project 5.</p>
-                        </div>
-                        <div class="coursework-card" onclick="showCoursework('Coursework 6', 'Detailed description for coursework 6 goes here.', 'sample6.pdf', 3)">
-                            <h4>Coursework 6</h4>
-                            <p>Short summary of project 6.</p>
-                        </div>
-                        <div class="coursework-card" onclick="showCoursework('Coursework 7', 'Detailed description for coursework 7 goes here.', 'sample7.pdf', 1)">
-                            <h4>Coursework 7</h4>
-                            <p>Short summary of project 7.</p>
-                        </div>
-                        <div class="coursework-card" onclick="showCoursework('Coursework 8', 'Detailed description for coursework 8 goes here.', 'sample8.pdf', 2)">
-                            <h4>Coursework 8</h4>
-                            <p>Short summary of project 8.</p>
-                        </div>
+                    <div class="coursework-list">
+                        <button class="coursework-item" type="button" onclick="showCoursework('Coursework 1', 'Description of the coursework project, the tools used, and the final outcome.', 'coursework-files/coursework-1.zip')"><span class="coursework-number">01</span><span class="coursework-content"><span class="coursework-name">Coursework 1</span><span class="coursework-summary">Short summary of project 1.</span></span><span class="coursework-arrow" aria-hidden="true">→</span></button>
+                        <button class="coursework-item" type="button" onclick="showCoursework('Coursework 2', 'Detailed description for coursework 2 goes here.', 'coursework-files/coursework-2.zip')"><span class="coursework-number">02</span><span class="coursework-content"><span class="coursework-name">Coursework 2</span><span class="coursework-summary">Short summary of project 2.</span></span><span class="coursework-arrow" aria-hidden="true">→</span></button>
+                        <button class="coursework-item" type="button" onclick="showCoursework('Coursework 3', 'Detailed description for coursework 3 goes here.', 'coursework-files/coursework-3.zip')"><span class="coursework-number">03</span><span class="coursework-content"><span class="coursework-name">Coursework 3</span><span class="coursework-summary">Short summary of project 3.</span></span><span class="coursework-arrow" aria-hidden="true">→</span></button>
+                        <button class="coursework-item" type="button" onclick="showCoursework('Coursework 4', 'Detailed description for coursework 4 goes here.', 'coursework-files/coursework-4.zip')"><span class="coursework-number">04</span><span class="coursework-content"><span class="coursework-name">Coursework 4</span><span class="coursework-summary">Short summary of project 4.</span></span><span class="coursework-arrow" aria-hidden="true">→</span></button>
+                        <button class="coursework-item" type="button" onclick="showCoursework('Coursework 5', 'Detailed description for coursework 5 goes here.', 'coursework-files/coursework-5.zip')"><span class="coursework-number">05</span><span class="coursework-content"><span class="coursework-name">Coursework 5</span><span class="coursework-summary">Short summary of project 5.</span></span><span class="coursework-arrow" aria-hidden="true">→</span></button>
+                        <button class="coursework-item" type="button" onclick="showCoursework('Coursework 6', 'Detailed description for coursework 6 goes here.', 'coursework-files/coursework-6.zip')"><span class="coursework-number">06</span><span class="coursework-content"><span class="coursework-name">Coursework 6</span><span class="coursework-summary">Short summary of project 6.</span></span><span class="coursework-arrow" aria-hidden="true">→</span></button>
+                        <button class="coursework-item" type="button" onclick="showCoursework('Coursework 7', 'Detailed description for coursework 7 goes here.', 'coursework-files/coursework-7.zip')"><span class="coursework-number">07</span><span class="coursework-content"><span class="coursework-name">Coursework 7</span><span class="coursework-summary">Short summary of project 7.</span></span><span class="coursework-arrow" aria-hidden="true">→</span></button>
+                        <button class="coursework-item" type="button" onclick="showCoursework('Coursework 8', 'Detailed description for coursework 8 goes here.', 'coursework-files/coursework-8.zip')"><span class="coursework-number">08</span><span class="coursework-content"><span class="coursework-name">Coursework 8</span><span class="coursework-summary">Short summary of project 8.</span></span><span class="coursework-arrow" aria-hidden="true">→</span></button>
                     </div>
                 </div>
 
@@ -348,14 +324,15 @@
     <div id="project1" class="page">
         <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
         <div class="project-details">
-            <h2>01. [Project Name One]</h2>
-            <p>Detailed description: Here you can write about the challenges you faced, the technologies you used, and the overall outcome of your first project.</p>
-            <div class="screenshot-grid">
-                <div class="screenshot-placeholder">Screenshot 1</div>
-                <div class="screenshot-placeholder">Screenshot 2</div>
-                <div class="screenshot-placeholder">Screenshot 3</div>
-                <div class="screenshot-placeholder">Screenshot 4</div>
-            </div>
+            <h2>01. E-Commerce Web Application</h2>
+            <!-- Replace the href value below with this project's public link. -->
+            <a class="project-link" href="https://project-1-online-shopping-website-production.up.railway.app" target="_blank" rel="noopener noreferrer">CLICK THE LINK AND TRY IT NOW &#8599;</a>
+            <p class="project-lead">A full-stack e-commerce prototype created to help promote and sell handmade, tailored traditional clothing.</p>
+            <section class="project-section"><h3>The problem</h3><p>My mother relied on third-party marketplaces such as Shopee, where commission fees, taxes, promotions, and coupons could reduce the effective selling price. This project explored an independent store that gives her greater control of pricing, promotions, and customer transactions.</p></section>
+            <section class="project-section"><h3>What I made</h3><p>I built an enterprise-style application with JHipster, Spring Boot, and Vue.js. A Java REST API connects the frontend and backend, MySQL manages application, customer, and product data, and WhatsApp supports communication and transactions between customers and the seller.</p></section>
+            <section class="project-section"><h3>Constraints &amp; lessons</h3><p>JHipster's generated structure required substantial storage and hosting resources, so the prototype remained unhosted due to budget constraints. I also learned the importance of designing the relational schema before generating entities, because later regeneration can overwrite custom changes.</p></section>
+            <section class="project-section"><h3>Outcome</h3><p>The completed prototype demonstrated the intended e-commerce workflow and helped my mother understand how an independently managed online store could showcase products and handle orders.</p></section>
+            <p class="technology-list"><strong>Technologies:</strong> Java, Spring Boot, JHipster, Vue.js, TypeScript, REST API, MySQL, SCSS, Git, WhatsApp</p>
         </div>
     </div>
 
@@ -363,14 +340,15 @@
     <div id="project2" class="page">
         <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
         <div class="project-details">
-            <h2>02. [Project Name Two]</h2>
-            <p>Detailed description: Here you can write about the challenges you faced, the technologies you used, and the overall outcome of your second project.</p>
-            <div class="screenshot-grid">
-                <div class="screenshot-placeholder">Screenshot 1</div>
-                <div class="screenshot-placeholder">Screenshot 2</div>
-                <div class="screenshot-placeholder">Screenshot 3</div>
-                <div class="screenshot-placeholder">Screenshot 4</div>
-            </div>
+            <h2>02. Sign Language Learning &amp; Translation Web Application</h2>
+            <!-- Replace the href value below with this project's public link. -->
+            <a class="project-link" href="https://example.com/project-2" target="_blank" rel="noopener noreferrer">CLICK THE LINK AND TRY IT NOW &#8599;</a>
+            <p class="project-lead">A publicly accessible ASL-learning application with optional accounts, learning material, quizzes, a dictionary, and sign-to-text and text-to-sign translation.</p>
+            <section class="project-section"><h3>The problem</h3><p>Limited knowledge of sign language can make communication with members of the Deaf community more difficult. Sign-language education is not widely incorporated into institutions, while some existing resources are passive or constrained by recognition accuracy.</p></section>
+            <section class="project-section"><h3>What I made</h3><p>I chose Django because its Python ecosystem made it practical to combine web features and machine learning. Users can explore guided signs, test their memory through quizzes, search a sign dictionary, and use translation features. Camera-captured hand signs are recognised from different angles and converted into predictions.</p></section>
+            <section class="project-section"><h3>Constraints &amp; lessons</h3><p>Motion-capture-quality data and equipment were unavailable, so images were used as the dataset. Recognition accuracy depended on the quantity and diversity of training images; hosting and database limits restricted both.</p></section>
+            <section class="project-section"><h3>Outcome</h3><p>The website was published publicly and demonstrated how machine learning and web development can create a more interactive way to learn basic sign language.</p></section>
+            <p class="technology-list"><strong>Technologies:</strong> Python, Django, HTML, CSS, JavaScript, MySQL, TensorFlow, PyTorch, MediaPipe, Git</p>
         </div>
     </div>
 
@@ -378,14 +356,15 @@
     <div id="project3" class="page">
         <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
         <div class="project-details">
-            <h2>03. [Project Name Three]</h2>
-            <p>Detailed description: Explain the background and purpose of project three.</p>
-            <div class="screenshot-grid">
-                <div class="screenshot-placeholder">Screenshot 1</div>
-                <div class="screenshot-placeholder">Screenshot 2</div>
-                <div class="screenshot-placeholder">Screenshot 3</div>
-                <div class="screenshot-placeholder">Screenshot 4</div>
-            </div>
+            <h2>03. Steal A Dungeon</h2>
+            <!-- Replace the href value below with this project's public link. -->
+            <a class="project-link" href="https://example.com/project-3" target="_blank" rel="noopener noreferrer">CLICK THE LINK AND TRY IT NOW &#8599;</a>
+            <p class="project-lead">An alpha roguelike game developed and published through Roblox Studio to gain hands-on game-development experience.</p>
+            <section class="project-section"><h3>The problem</h3><p>Video games are a key hobby of mine, and I wanted to understand development beyond playing. The project gave me a space to develop a creative concept, draw from player experience, and improve gameplay mechanics.</p></section>
+            <section class="project-section"><h3>What I made</h3><p>Players raid dungeons until a boss fight, collecting randomized rewards to upgrade their base and defensive turrets. Those defences protect against other players destroying the base. Roblox Studio provided scripting, animation, multiplayer, and publishing tools in an accessible environment.</p></section>
+            <section class="project-section"><h3>Constraints &amp; lessons</h3><p>Lua and Luau were new to me compared with other languages, so I need to learn a new language alongside Roblox Studio and the fundamental of game-development.</p></section>
+            <section class="project-section"><h3>Outcome</h3><p>The game is published for Roblox players and remains in alpha. Its dungeon-raiding, reward, upgrading, and base-defence loop was designed to be quick to learn.</p></section>
+            <p class="technology-list"><strong>Technologies:</strong> Roblox, Roblox Studio, Lua, Luau, Animation Editor</p>
         </div>
     </div>
 
@@ -393,14 +372,15 @@
     <div id="project4" class="page">
         <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
         <div class="project-details">
-            <h2>04. [Project Name Four]</h2>
-            <p>Detailed description: Explain the background and purpose of project four.</p>
-            <div class="screenshot-grid">
-                <div class="screenshot-placeholder">Screenshot 1</div>
-                <div class="screenshot-placeholder">Screenshot 2</div>
-                <div class="screenshot-placeholder">Screenshot 3</div>
-                <div class="screenshot-placeholder">Screenshot 4</div>
-            </div>
+            <h2>04. Personal Portfolio Website</h2>
+            <!-- Replace the href value below with this project's public link. -->
+            <a class="project-link" href="https://example.com/project-4" target="_blank" rel="noopener noreferrer">CLICK THE LINK AND TRY IT NOW &#8599;</a>
+            <p class="project-lead">A central portfolio that presents my UI/UX work, certificates, projects, coursework, technical skills, and background.</p>
+            <section class="project-section"><h3>The problem</h3><p>I wanted recruiters and interested visitors to access my experience and achievements in one place instead of navigating several separate resources. The project also gave me practical deployment and hosting experience.</p></section>
+            <section class="project-section"><h3>What I made</h3><p>I built the portfolio with HTML, CSS, and JavaScript to keep it understandable, manageable, and simple to deploy. As a personal challenge, I used only one HTML file, one CSS file, and one JavaScript file.</p></section>
+            <section class="project-section"><h3>Constraints &amp; lessons</h3><p>The three-file constraint kept the structure simple but made larger sections progressively harder to navigate and maintain as the portfolio grew.</p></section>
+            <section class="project-section"><h3>Outcome</h3><p>The portfolio is hosted publicly on Vercel, giving visitors one place to view my work and background.</p></section>
+            <p class="technology-list"><strong>Technologies:</strong> HTML, CSS, JavaScript, Vercel</p>
         </div>
     </div>
 
@@ -408,14 +388,15 @@
     <div id="project5" class="page">
         <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
         <div class="project-details">
-            <h2>05. [Project Name Five]</h2>
-            <p>Detailed description: Explain the background and purpose of project five.</p>
-            <div class="screenshot-grid">
-                <div class="screenshot-placeholder">Screenshot 1</div>
-                <div class="screenshot-placeholder">Screenshot 2</div>
-                <div class="screenshot-placeholder">Screenshot 3</div>
-                <div class="screenshot-placeholder">Screenshot 4</div>
-            </div>
+            <h2>05. Data Structures &amp; Algorithms Through Games</h2>
+            <!-- Replace the href value below with this project's public link. -->
+            <a class="project-link" href="https://example.com/project-5" target="_blank" rel="noopener noreferrer">CLICK THE LINK AND TRY IT NOW &#8599;</a>
+            <p class="project-lead">Seven small Java games created as hands-on exercises for understanding fundamental data structures and algorithms.</p>
+            <section class="project-section"><h3>The problem</h3><p>I found data structures and algorithms difficult to grasp through theory alone. Building simple games made their behaviour visible and turned abstract concepts into practical programming exercises.</p></section>
+            <section class="project-section"><h3>What I made</h3><p>Each game focuses on a distinct concept: <strong>Choose Your Adventure</strong> (trees), <strong>Connect Four</strong> (2D arrays), <strong>Diner Dash</strong> (queues), <strong>Minesweeper</strong> (graphs), <strong>Snake</strong> (linked lists), <strong>Tower of Hanoi</strong> (stacks), and <strong>Wordle</strong> (hash sets). I also created documentation as a reference and cheat sheet.</p></section>
+            <section class="project-section"><h3>Constraints &amp; lessons</h3><p>The main challenge was translating abstract DSA ideas into meaningful gameplay. Each exercise required understanding both the structure itself and a game mechanic that could demonstrate it clearly.</p></section>
+            <section class="project-section"><h3>Outcome</h3><p>The completed collection provides seven working learning exercises and reusable documentation for reviewing the concepts.</p></section>
+            <p class="technology-list"><strong>Technologies:</strong> Java, Java GUI</p>
         </div>
     </div>
 
@@ -423,14 +404,15 @@
     <div id="project6" class="page">
         <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
         <div class="project-details">
-            <h2>06. [Project Name Six]</h2>
-            <p>Detailed description: Explain the background and purpose of project six.</p>
-            <div class="screenshot-grid">
-                <div class="screenshot-placeholder">Screenshot 1</div>
-                <div class="screenshot-placeholder">Screenshot 2</div>
-                <div class="screenshot-placeholder">Screenshot 3</div>
-                <div class="screenshot-placeholder">Screenshot 4</div>
-            </div>
+            <h2>06. Oil Palm Leaf Disease Detection</h2>
+            <!-- Replace the href value below with this project's public link. -->
+            <a class="project-link" href="https://example.com/project-6" target="_blank" rel="noopener noreferrer">CLICK THE LINK AND TRY IT NOW &#8599;</a>
+            <p class="project-lead">A web-based prototype that classifies uploaded oil-palm leaf images as brown spots, healthy, or white scale with an EfficientNetB0 model.</p>
+            <section class="project-section"><h3>The problem</h3><p>Oil-palm disease can affect health, yield, and profitability. Manual visual inspection may be slow, subjective, and dependent on specialist knowledge, especially when early symptoms are subtle.</p></section>
+            <section class="project-section"><h3>What I made</h3><p>I built an interactive Streamlit app that resizes an uploaded JPG or PNG to 224×224, runs prediction through TensorFlow/Keras, shows confidence and the top three results, and estimates a Healthy, Mild, Moderate, or Severe status. The status is an accessible screening aid, not a diagnosis.</p></section>
+            <section class="project-section"><h3>Constraints &amp; lessons</h3><p>The system supports only three classes and is sensitive to image quality, lighting, angle, and relevance. Severity is inferred from classifier confidence and uncertainty rather than a separately trained model. The 31 MB model and TensorFlow runtime make deployment heavier, while the repository lacks training data, field validation, and evaluation metrics.</p></section>
+            <section class="project-section"><h3>Outcome</h3><p>The prototype delivers an end-to-end workflow for image upload, preprocessing, classification, confidence scoring, top-three probabilities, severity estimation, and user-facing alerts. It is best positioned as a proof of concept pending broader data, testing, validation, and deployment work.</p></section>
+            <p class="technology-list"><strong>Technologies:</strong> Python, Streamlit, TensorFlow, Keras, EfficientNetB0, NumPy, Pillow, Matplotlib, JSON, HDF5, Protocol Buffers, Git</p>
         </div>
     </div>
 
@@ -438,14 +420,15 @@
     <div id="project7" class="page">
         <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
         <div class="project-details">
-            <h2>07. [Project Name Seven]</h2>
-            <p>Detailed description: Explain the background and purpose of your final project.</p>
-            <div class="screenshot-grid">
-                <div class="screenshot-placeholder">Screenshot 1</div>
-                <div class="screenshot-placeholder">Screenshot 2</div>
-                <div class="screenshot-placeholder">Screenshot 3</div>
-                <div class="screenshot-placeholder">Screenshot 4</div>
-            </div>
+            <h2>07. Digital Piano Application</h2>
+            <!-- Replace the href value below with this project's public link. -->
+            <a class="project-link" href="https://example.com/project-7" target="_blank" rel="noopener noreferrer">CLICK THE LINK AND TRY IT NOW &#8599;</a>
+            <p class="project-lead">A desktop digital piano built with C++ and JUCE, featuring sampled audio, MIDI playback, and a Synthesia-style falling-notes visualiser.</p>
+            <section class="project-section"><h3>The problem</h3><p>Learning piano can be difficult without a physical piano or MIDI keyboard. Basic virtual pianos may lack realistic sound, useful controls, or clear guidance for practising MIDI songs.</p></section>
+            <section class="project-section"><h3>What I made</h3><p>The application lets users play a sampled 88-key piano with an on-screen or computer keyboard, change octaves, control volume, and enable sustain. It loads MIDI files, supports play, pause, stop, seeking, and 0.25×–2× speed, then synchronises playback with active-key highlighting and falling notes.</p></section>
+            <section class="project-section"><h3>Constraints &amp; lessons</h3><p>The Salamander Grand Piano library contains hundreds of WAV files, so the engine loads six selected velocity layers rather than all sixteen. Real-time audio required separating processing from UI work: the audio callback drives MIDI timing, while the interface polls state for visual updates. The current build focuses on mouse and computer-keyboard input, with no external MIDI controller support, recording, advanced pedal handling, or full MIDI-event interpretation.</p></section>
+            <section class="project-section"><h3>Outcome</h3><p>The completed application provides realistic sampled playback, MIDI-song controls, synchronized falling-note guidance, and saved volume and octave preferences for casual playing and practice.</p></section>
+            <p class="technology-list"><strong>Technologies:</strong> C++, CMake, JUCE Framework, WAV Audio Samples, MIDI File Parsing, Real-Time Audio Processing, Audio Synthesis, GUI Development, STL, Git</p>
         </div>
     </div>
 
@@ -466,11 +449,18 @@
 <div id="courseworkModal" class="modal-overlay" onclick="if(event.target === this) closeCourseworkModal()">
     <div class="modal-box">
         <button class="modal-close" onclick="closeCourseworkModal()">&times;</button>
-        <div id="cwModalImageContainer"></div>
         <h4 id="cwModalTitle"></h4>
         <p id="cwModalDesc" style="margin-bottom: 25px;"></p>
-        <a id="cwModalPdf" href="#" class="back-btn" target="_blank" download style="display: inline-block; text-decoration: none;">&#128196; Download PDF</a>
+        <a id="cwModalZip" href="#" class="back-btn" download style="display: inline-block; text-decoration: none;">&#128230; Download ZIP</a>
     </div>
+</div>
+
+<div class="coursework-visibility-control">
+    <span id="courseworkToggleLabel">Coursework</span>
+    <label class="coursework-switch" for="courseworkToggle">
+        <input id="courseworkToggle" type="checkbox" checked aria-labelledby="courseworkToggleLabel" aria-controls="coursework">
+        <span class="coursework-switch-track" aria-hidden="true"></span>
+    </label>
 </div>
 
 <script src="script.js"></script>

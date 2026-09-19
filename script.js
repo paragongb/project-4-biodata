@@ -30,6 +30,25 @@ function toggleDarkMode() {
 
 setDarkMode(localStorage.getItem('darkMode') === 'true');
 
+// --- COURSEWORK VISIBILITY ---
+const coursework = document.getElementById('coursework');
+const courseworkNavItem = document.getElementById('courseworkNavItem');
+const courseworkToggle = document.getElementById('courseworkToggle');
+
+function setCourseworkVisibility(isVisible, persist = false) {
+    coursework.classList.toggle('coursework-hidden', !isVisible);
+    courseworkNavItem.classList.toggle('coursework-nav-hidden', !isVisible);
+    courseworkToggle.checked = isVisible;
+    courseworkToggle.setAttribute('aria-checked', String(isVisible));
+    coursework.setAttribute('aria-hidden', String(!isVisible));
+
+    if (persist) {
+        localStorage.setItem('courseworkVisible', String(isVisible));
+    }
+}
+
+setCourseworkVisibility(localStorage.getItem('courseworkVisible') !== 'false');
+courseworkToggle.addEventListener('change', () => setCourseworkVisibility(courseworkToggle.checked, true));
 
 // --- NAVIGATION LOGIC ---
 function showProject(projectId) {
@@ -88,22 +107,11 @@ function closeCertificateModal() {
     document.getElementById('certificateModal').classList.remove('active');
 }
 
-function showCoursework(title, description, pdfLink, imageCount = 1) {
+function showCoursework(title, description, zipLink) {
     document.getElementById('cwModalTitle').textContent = title;
     document.getElementById('cwModalDesc').textContent = description;
     
-    const pdfBtn = document.getElementById('cwModalPdf');
-    pdfBtn.href = pdfLink;
-
-    const imageContainer = document.getElementById('cwModalImageContainer');
-    imageContainer.innerHTML = ''; 
-
-    for (let i = 1; i <= imageCount; i++) {
-        const imgPlaceholder = document.createElement('div');
-        imgPlaceholder.className = 'modal-image-placeholder';
-        imgPlaceholder.textContent = `Coursework Image ${i}`;
-        imageContainer.appendChild(imgPlaceholder);
-    }
+    document.getElementById('cwModalZip').href = zipLink;
 
     document.getElementById('courseworkModal').classList.add('active');
 }
