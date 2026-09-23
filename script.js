@@ -30,6 +30,17 @@ function toggleDarkMode() {
 
 setDarkMode(localStorage.getItem('darkMode') === 'true');
 
+// Do not leave broken-image markers when a third-party brand logo is unavailable.
+document.querySelectorAll('.skill-icon, .contact-icon').forEach((icon) => {
+    const removeBrokenIcon = () => icon.remove();
+
+    if (icon.complete && icon.naturalWidth === 0) {
+        removeBrokenIcon();
+    } else {
+        icon.addEventListener('error', removeBrokenIcon, { once: true });
+    }
+});
+
 // --- COURSEWORK VISIBILITY ---
 const coursework = document.getElementById('coursework');
 const courseworkNavItem = document.getElementById('courseworkNavItem');
@@ -96,6 +107,23 @@ const anthropicCertificateImages = [
     'certificates/anthropic/previews/anthropic-08-1.png',
     'certificates/anthropic/previews/anthropic-09-1.png',
     'certificates/anthropic/previews/anthropic-10-1.png'
+];
+
+const serviceDeskCertificateImages = [
+    'certificates/servicedesk/Service%20Desk%20Simulator%20Certificate%201.png',
+    'certificates/servicedesk/Service%20Desk%20Simulator%20Certificate%202.png'
+];
+
+const certificate2016To2021Images = [
+    'certificates/2016-2021/Certificate%201%20-%202016.jpg',
+    'certificates/2016-2021/Certificate%202%20-%202017.jpg',
+    'certificates/2016-2021/Certificate%203%20-%202017.jpg',
+    'certificates/2016-2021/Certificate%204%20-%202018.jpg',
+    'certificates/2016-2021/Certificate%205%20-%202019.jpg',
+    'certificates/2016-2021/Certificate%206%20-%202019.jpg',
+    'certificates/2016-2021/Certificate%207%20-%202019.jpg',
+    'certificates/2016-2021/Certificate%208%20-%202019.jpg',
+    'certificates/2016-2021/Certificate%209%20-%202021.jpg'
 ];
 
 function showCertificate(name, org, date, imageSources = 1) {

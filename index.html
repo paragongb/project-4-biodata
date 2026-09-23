@@ -9,7 +9,7 @@
 <body>
 
 <nav class="navbar">
-    <div class="logo">[Your Name]</div>
+    <div class="logo">PARAGON.GB</div>
     
     <!-- Hamburger Button for Mobile -->
     <button class="menu-toggle" aria-label="Toggle navigation">&#9776;</button>
@@ -32,7 +32,7 @@
     <div id="main-page" class="page active">
         
         <div class="biodata-section">
-            <div class="profile-pic-placeholder">Your Photo Here</div>
+            <div class="profile-pic-placeholder"><img src="others/Gerard_Bobby_Picture.jpg" alt="Gerard Bobby"></div>
             <h1>GERARD BOBBY</h1>
             <h3>Software Engineer</h3>
             <br>
@@ -132,15 +132,15 @@
                 </div>
             </div>
 
-            <!-- Card 8 (Far Right - Slate/Locked) -->
-            <div class="card-wrapper" style="--i:8; --z:8; --tx:240px; --ty:35px; --rot:-24deg; --theme: rgba(148, 163, 184, 0.4);">
-                <div class="interactive-card locked-card">
-                    <div class="card-number">&Oslash;</div>
+            <!-- Card 8 (Far Right) -->
+            <div class="card-wrapper" style="--i:8; --z:8; --tx:240px; --ty:35px; --rot:-24deg; --theme: rgba(99, 102, 241, 0.7);">
+                <div class="interactive-card" onclick="showProject('project8')">
+                    <div class="card-number">08</div>
                     <div class="card-content">
-                        <h3>Coming Soon</h3>
-                        <p>This project is currently in active development.</p>
+                        <h3>IT Support Ticket Practice</h3>
+                        <p>Video walkthroughs of practical IT support ticket resolution.</p>
                     </div>
-                    <div class="card-footer">[ Locked ]</div>
+                    <div class="card-footer">View Project &#8594;</div>
                 </div>
             </div>
 
@@ -258,18 +258,23 @@
                     <h3 class="expertise-title">Work Experience</h3>
                     <div class="experience-grid">
                         <div class="experience-box">
-                            <div class="experience-box-image">Company Logo / Photo</div>
+                            <div class="experience-box-image experience-photo"><img src="others/Job_1.jpg" alt="Gerard Bobby with fellow trainees at Sarawak Information Systems"></div>
                             <h4>INDUSTRIAL TRAINEE</h4>
                             <span class="experience-role">Sarawak Information Systems Sdn. Bhd.</span>
                             <span class="experience-date">March 2025 - August 2025</span>
-                            <p></p>
+                            <ul class="experience-description">
+                                <li>Was assigned to the Specialized System Development department.</li>
+                                <li>Implemented a loan application system that allows employees to apply for loans without physical paperwork.</li>
+                                <li>Implemented an overtime claim system that allows employees to submit overtime claims without physical paperwork.</li>
+                                <li>Used JHipster as the framework; HTML, Vue.js, and TypeScript for frontend development; Java for backend development; and MySQL as the database.</li>
+                            </ul>
                         </div>
                         <div class="experience-box">
                             <div class="experience-box-image">Company Logo / Photo</div>
                             <h4>[Job Title]</h4>
                             <span class="experience-role">[Company Name]</span>
                             <span class="experience-date">[Start] - [End]</span>
-                            <p>Brief description of your responsibilities and achievements in this role.</p>
+                            <p>Add a concise description of your responsibilities, key achievements, and skills developed in this role.</p>
                         </div>
                         <div class="fun-message-box">
                             Offer me jobs, so that I can gain valuable experience, contribute to exciting projects, and more pictures in my portfolio will be added.
@@ -288,11 +293,11 @@
                             <h4>e-LATIH</h4>
                             <span>Human Resource Development Corporation</span>
                         </div>
-                        <div class="certificate-card" onclick="showCertificate('[Certificate Name]', '[Issuing Organization]', '[Date Earned]')">
-                            <h4>[Certificate Name]</h4>
-                            <span>[Issuing Organization]</span>
+                        <div class="certificate-card" onclick="showCertificate('Service Desk Simulator Certificates', 'Service Desk Simulator', '', serviceDeskCertificateImages)">
+                            <h4>IT SUPPORT TRAINING MILESTONES</h4>
+                            <span>Service Desk Simulator</span>
                         </div>
-                        <div class="certificate-card" onclick="showCertificate('[Certificate Name]', '[Issuing Organization]', '[Date Earned]')">
+                        <div class="certificate-card" onclick="showCertificate('Certificates 2016–2021', 'SAINSKU - KMSw', '', certificate2016To2021Images)">
                             <h4>CERTIFICATES 2016-2021</h4>
                             <span>SAINSKU - KMSw</span>
                         </div>
@@ -437,6 +442,33 @@
         </div>
     </div>
 
+    <!-- Project 8 Page -->
+    <div id="project8" class="page">
+        <button class="back-btn" onclick="showMainPage()">&#8592; Back to Main Portfolio</button>
+        <div class="project-details">
+            <h2>08. IT Support Ticket Practice</h2>
+            <p class="project-lead">A set of practical video walkthroughs showing how I approach common IT support tickets, document troubleshooting steps, and communicate clear outcomes.</p>
+            <section class="project-section"><h3>What the videos show</h3><p>Each recording focuses on a ticket-resolution workflow from initial review through investigation, response, and escalation where needed.</p></section>
+            <section class="project-videos ticket-video-section" aria-labelledby="project8Videos">
+                <h3 id="project8Videos">Ticket-resolution videos</h3>
+                <div class="video-grid">
+                    <figure>
+                        <video controls playsinline preload="metadata"><source src="videos/Project%208%20-%20Video%201.mp4" type="video/mp4">Add <code>Project 8 - Video 1.mp4</code> to the videos folder to play this recording.</video>
+                        <figcaption><strong>Video 1: First-line ticket triage</strong><span>Review the request, gather the key details, identify the likely issue, and document the next action.</span></figcaption>
+                    </figure>
+                    <figure>
+                        <video controls playsinline preload="metadata"><source src="videos/Project%208%20-%20Video%202.mp4" type="video/mp4">Add <code>Project 8 - Video 2.mp4</code> to the videos folder to play this recording.</video>
+                        <figcaption><strong>Video 2: Account access support</strong><span>Work through an access or password-related request while communicating a clear and secure resolution.</span></figcaption>
+                    </figure>
+                    <figure>
+                        <video controls playsinline preload="metadata"><source src="videos/Project%208%20-%20Video%203.mp4" type="video/mp4">Add <code>Project 8 - Video 3.mp4</code> to the videos folder to play this recording.</video>
+                        <figcaption><strong>Video 3: Escalation and handover</strong><span>Capture troubleshooting notes, recognise when escalation is needed, and prepare a useful handover.</span></figcaption>
+                    </figure>
+                </div>
+            </section>
+        </div>
+    </div>
+
 </div>
 
 <footer class="site-footer" aria-labelledby="contactTitle">
@@ -447,9 +479,9 @@
             <p>Have an opportunity, project, or idea to discuss? I&apos;d be glad to hear from you.</p>
         </div>
         <div class="footer-links" aria-label="Contact links">
-            <a href="https://github.com/paragongb" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-            <a href="https://wa.me/601151811980?text=Hello%20Gerard%2C%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20get%20in%20touch." target="_blank" rel="noopener noreferrer">WhatsApp <span aria-hidden="true">↗</span></a>
-            <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=jeradbobi03%40gmail.com&amp;su=Portfolio%20enquiry&amp;body=Hello%20Gerard%2C%0A%0A" target="_blank" rel="noopener noreferrer">Email <span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/paragongb" target="_blank" rel="noopener noreferrer"><img class="contact-icon" src="https://cdn.simpleicons.org/github/181717" alt="" aria-hidden="true">GitHub <span aria-hidden="true">↗</span></a>
+            <a href="https://wa.me/601151811980?text=Hello%20Gerard%2C%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20get%20in%20touch." target="_blank" rel="noopener noreferrer"><img class="contact-icon" src="https://cdn.simpleicons.org/whatsapp/25D366" alt="" aria-hidden="true">WhatsApp <span aria-hidden="true">↗</span></a>
+            <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=jeradbobi03%40gmail.com&amp;su=Portfolio%20enquiry&amp;body=Hello%20Gerard%2C%0A%0A" target="_blank" rel="noopener noreferrer"><img class="contact-icon" src="https://cdn.simpleicons.org/gmail/EA4335" alt="" aria-hidden="true">Gmail <span aria-hidden="true">↗</span></a>
         </div>
     </div>
     <p class="footer-copyright">© 2026 Gerard Bobby. All rights reserved.</p>
