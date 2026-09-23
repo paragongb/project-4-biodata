@@ -85,7 +85,20 @@ function scrollToSection(event, sectionId) {
 
 
 // --- MODAL LOGIC ---
-function showCertificate(name, org, date, imageCount = 1) {
+const anthropicCertificateImages = [
+    'certificates/anthropic/previews/anthropic-01-1.png',
+    'certificates/anthropic/previews/anthropic-02-1.png',
+    'certificates/anthropic/previews/anthropic-03-1.png',
+    'certificates/anthropic/previews/anthropic-04-1.png',
+    'certificates/anthropic/previews/anthropic-05-1.png',
+    'certificates/anthropic/previews/anthropic-06-1.png',
+    'certificates/anthropic/previews/anthropic-07-1.png',
+    'certificates/anthropic/previews/anthropic-08-1.png',
+    'certificates/anthropic/previews/anthropic-09-1.png',
+    'certificates/anthropic/previews/anthropic-10-1.png'
+];
+
+function showCertificate(name, org, date, imageSources = 1) {
     document.getElementById('modalCertName').textContent = name;
     document.getElementById('modalCertOrg').textContent = org;
     document.getElementById('modalCertDate').textContent = date;
@@ -93,11 +106,21 @@ function showCertificate(name, org, date, imageCount = 1) {
     const imageContainer = document.getElementById('modalImageContainer');
     imageContainer.innerHTML = ''; 
 
-    for (let i = 1; i <= imageCount; i++) {
+    if (Array.isArray(imageSources)) {
+        imageSources.forEach((source, index) => {
+            const image = document.createElement('img');
+            image.className = 'certificate-preview';
+            image.src = source;
+            image.alt = `${name} ${index + 1}`;
+            imageContainer.appendChild(image);
+        });
+    } else {
+        for (let i = 1; i <= imageSources; i++) {
         const imgPlaceholder = document.createElement('div');
         imgPlaceholder.className = 'modal-image-placeholder';
         imgPlaceholder.textContent = `Certificate Image ${i}`;
         imageContainer.appendChild(imgPlaceholder);
+        }
     }
 
     document.getElementById('certificateModal').classList.add('active');
