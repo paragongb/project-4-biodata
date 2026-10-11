@@ -109,9 +109,17 @@ const anthropicCertificateImages = [
     'certificates/anthropic/previews/anthropic-10-1.png'
 ];
 
+const eLatihCertificateImages = [
+    'certificates/elatih/previews/elatih-01.png',
+    'certificates/elatih/previews/elatih-02.png',
+    'certificates/elatih/previews/elatih-03.png',
+    'certificates/elatih/previews/elatih-04.png'
+];
+
 const serviceDeskCertificateImages = [
     'certificates/servicedesk/Service%20Desk%20Simulator%20Certificate%201.png',
-    'certificates/servicedesk/Service%20Desk%20Simulator%20Certificate%202.png'
+    'certificates/servicedesk/Service%20Desk%20Simulator%20Certificate%202.png',
+    'certificates/servicedesk/Service%20Desk%20Simulator%20Certificate%203.png'
 ];
 
 const certificate2016To2021Images = [
@@ -124,6 +132,25 @@ const certificate2016To2021Images = [
     'certificates/2016-2021/Certificate%207%20-%202019.jpg',
     'certificates/2016-2021/Certificate%208%20-%202019.jpg',
     'certificates/2016-2021/Certificate%209%20-%202021.jpg'
+];
+
+const studentExchangeCertificateImages = [
+    'certificates/student_exchange_programme/previews/exchange-01-1.png'
+];
+
+const hackathonCertificateImages = [
+    'certificates/hackathons/previews/hackathon-01-1.png'
+];
+
+const cybearsCertificateImages = [
+    'certificates/cybears/previews/cybears-01-1.png'
+];
+
+const ciscoCertificateImages = [
+    'certificates/cisco/previews/cisco-01.png',
+    'certificates/cisco/previews/cisco-02.png',
+    'certificates/cisco/previews/cisco-03.png',
+    'certificates/cisco/previews/cisco-04.png'
 ];
 
 function showCertificate(name, org, date, imageSources = 1) {
