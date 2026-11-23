@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { site } from '@/content/site';
-import JourneyTimelines from './JourneyTimelines';
+import JourneyTimeline from './JourneyTimeline';
 import styles from './journey.module.css';
 
 export const metadata: Metadata = {
   title: 'Journey',
-  description: 'Timelines of what I learned and the activities I took part in.',
+  description: 'Education milestones and certificates.',
 };
 
 export default function JourneyPage() {
@@ -18,7 +18,7 @@ export default function JourneyPage() {
       </header>
       <main className={styles.main}>
         <h1>Journey</h1>
-        <JourneyTimelines />
+        <JourneyTimeline />
       </main>
     </div>
   );

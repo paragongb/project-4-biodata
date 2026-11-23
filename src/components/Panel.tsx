@@ -10,7 +10,7 @@ import { about } from '@/content/about';
 import { now } from '@/content/now';
 import type { Certificate } from '@/content/certificates';
 import type { GithubStats } from '@/lib/types';
-import JourneyTimelines from '@/app/journey/JourneyTimelines';
+import JourneyTimeline from '@/app/journey/JourneyTimeline';
 import CertificateTimeline from './CertificateTimeline';
 import ContactForm from './ContactForm';
 import SkillList from './SkillList';
@@ -79,7 +79,7 @@ function Body({ id, live, certificates }: Omit<PanelContent, 'onClose'> & { id: 
       return <CertificateTimeline certificates={certificates} />;
 
     case 'journey':
-      return <JourneyTimelines inPanel />;
+      return <JourneyTimeline inPanel />;
 
     case 'skills':
       return (
@@ -150,18 +150,7 @@ function Body({ id, live, certificates }: Omit<PanelContent, 'onClose'> & { id: 
       return <p className="lead">No research entries yet.</p>;
 
     case 'previous-services':
-      return (
-        <ol className="panel-timeline" role="list">
-          {[0, 1, 2].map((entry) => (
-            <li key={entry}>
-              <h3>Date</h3>
-              <div className="timeline-image-placeholder" role="img" aria-label="Photo placeholder" />
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-              <p className="note">Link to the project · pending</p>
-            </li>
-          ))}
-        </ol>
-      );
+      return <p className="lead">Coming soon.</p>;
 
     case 'terminal':
       return <Terminal />;

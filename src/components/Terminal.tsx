@@ -6,6 +6,7 @@ import { site } from '@/content/site';
 
 const command = 'help';
 const prompt = `${site.githubUsername}@portfolio:~$`;
+const workHistory = [...experience].reverse();
 
 export default function Terminal() {
   const [input, setInput] = useState('');
@@ -58,7 +59,7 @@ export default function Terminal() {
 }
 
 function TerminalResume() {
-  const { name, location, email, linkedin, summary, education, achievements, projects, activities, references } = terminalResume;
+  const { name, location, email, portfolio, summary, education, achievements, projects, activities, references } = terminalResume;
 
   return (
     <article className="term-resume" aria-labelledby="terminal-resume-name">
@@ -70,13 +71,13 @@ function TerminalResume() {
           <li><a href={`mailto:${email}`}>Email</a></li>
           <li><a href={site.links.whatsapp}>WhatsApp</a></li>
           <li><a href={site.links.github}>GitHub</a></li>
-          <li><a href={linkedin}>LinkedIn</a></li>
+          <li><a href={portfolio}>Portfolio</a></li>
           <li><a href={site.resumePdf}>PDF résumé</a></li>
         </ul>
       </header>
 
       <section>
-        <h4>Profile</h4>
+        <h4>Profile summary</h4>
         <p>{summary}</p>
       </section>
 
@@ -93,7 +94,7 @@ function TerminalResume() {
 
       <section>
         <h4>Work experience</h4>
-        {experience.map(({ company, title, dates, highlights }) => (
+        {workHistory.map(({ company, title, dates, highlights }) => (
           <div className="term-entry" key={company}>
             <p className="term-meta">{dates}</p>
             <h5>{title}</h5>

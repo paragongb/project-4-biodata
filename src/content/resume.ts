@@ -26,7 +26,7 @@ export const experience = [
     title: 'Industrial Trainee Internship',
     dates: 'Mar 2025 – Aug 2025',
     highlights: [
-      'Worked in the Specialized System Development department on a system that would let employees apply for company loans without paper forms.',
+      'Assigned to implement a paperless employee loan application system in the Specialized System Development department.',
       'Used JHipster with HTML, Vue.js, and TypeScript for the frontend, Java for the backend, and MySQL for the database.',
     ],
   },
@@ -58,13 +58,13 @@ export const terminalResume = {
   name: 'Gerard Anak Bobby',
   location: 'Kuching, Sarawak, Malaysia',
   email: 'jeradbobi03@gmail.com',
-  linkedin: 'https://www.linkedin.com/in/gerard-bobby',
-  summary: 'Software engineering graduate with hands-on experience in software development, IT support, and graphic design. Brings problem-solving, communication, leadership, and teamwork skills developed through technical projects.',
+  portfolio: 'https://gerard-bobby-portfolio.vercel.app/',
+  summary: 'Detail-oriented software engineering graduate with hands-on experience in software development, IT support, and graphic design. Developed problem-solving, communication, leadership, and teamwork skills through technical projects. Seeking new opportunities in computer science and information technology.',
   education: [
     {
-      school: 'University Malaysia Sarawak (UNIMAS)',
-      dates: '2022–2026',
-      details: 'Bachelor of Software Engineering with Honours (CGPA 3.33). Final year project on a sign language learning web application.',
+      school: 'Sekolah Menengah Sains Kuching (SAINSKU)',
+      dates: '2016-2021',
+      details: 'Sijil Pelajaran Malaysia (SPM: 1A+, 2A, 4A-, 2B+). Ujian Pentaksiran Bahasa Antarabangsa (Bahasa Jepun: B+).',
     },
     {
       school: 'Kolej Matrikulasi Sarawak (KMSw)',
@@ -72,9 +72,9 @@ export const terminalResume = {
       details: 'Physical Science (CGPA 3.71, MUET Band 4.0).',
     },
     {
-      school: 'Sekolah Menengah Sains Kuching (SAINSKU)',
-      dates: '2016–2021',
-      details: 'SPM (1A+, 2A, 4A-, 2B+) and Japanese international language assessment (B+).',
+      school: 'University Malaysia Sarawak (UNIMAS)',
+      dates: '2022-2026',
+      details: 'Bachelor of Software Engineering with Honours (CGPA 3.33). Final-year project: Sign Language Learning Web Application.',
     },
   ],
   achievements: [
@@ -93,24 +93,19 @@ export const terminalResume = {
   ],
   projects: [
     {
-      name: 'Traditional Clothes E-Commerce Platform',
-      tools: 'JHipster, Spring Boot, Vue.js, TypeScript, SCSS, Java, MySQL',
-      details: 'Built a full-stack online store prototype and designed REST APIs, relational data models, and business logic.',
+      name: 'E-Commerce for Promoting and Selling Traditional Costumes',
+      tools: 'JHipster, HTML, Vue.js, TypeScript, SCSS, Java, MySQL',
+      details: 'Built a full-stack online store using JHipster. Designed REST APIs and implemented relational database operations, CRUD workflows, and business logic.',
     },
     {
       name: 'Sign Language Learning Web Application',
-      tools: 'Django, Python, HTML, CSS, OpenCV, TensorFlow',
-      details: 'Built a real-time sign language gesture classifier and collected and labelled a dataset of basic American Sign Language gestures.',
+      tools: 'Django, Python, HTML, CSS',
+      details: 'Built a real-time sign language gesture classifier with OpenCV and TensorFlow. Collected and labelled a custom dataset of basic American Sign Language gestures.',
     },
     {
       name: 'IT Ticketing Triage Simulation',
       tools: 'SupportDesk Simulator',
-      details: 'Triaged more than 100 simulated IT tickets, practising support procedures, prioritisation, and categorisation.',
-    },
-    {
-      name: 'All-In-One Emulator',
-      tools: 'C++, Libretro, CMake',
-      details: 'Developing a cross-platform retro gaming launcher that supports multiple console systems.',
+      details: 'Triaged over 100 simulated IT tickets, practising support procedures and prioritising and categorising technical issues.',
     },
   ],
   activities: [

@@ -8,7 +8,7 @@ export type SectionId =
 export const sections: { id: SectionId; title: string; kicker: string; href?: string }[] = [
   { id: 'projects', title: 'Projects', kicker: 'storage box · case studies', href: '/projects' },
   { id: 'experience', title: 'Experience', kicker: 'city block' },
-  { id: 'journey', title: 'Journey', kicker: 'nether portal · learning and participation' },
+  { id: 'journey', title: 'Journey', kicker: 'nether portal · education' },
   { id: 'resume', title: 'CV', kicker: 'leaning frame · PDF', href: site.resumePdf },
   { id: 'skills', title: 'Skills', kicker: 'keyboard', href: '/resume#skills' },
   { id: 'certs', title: 'Certifications', kicker: 'binders' },
