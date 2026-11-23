@@ -2,8 +2,8 @@
   --journey-accent: #7845a5;
   --page-gutter: clamp(12px, 3vw, 24px);
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  height: 100dvh;
+  grid-template-rows: auto 1fr;
+  min-block-size: 100dvh;
   background: radial-gradient(ellipse at top, color-mix(in srgb, var(--journey-accent) 12%, transparent), transparent 65%);
 }
 
@@ -31,7 +31,7 @@
 
 .main {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
   gap: clamp(12px, 3dvh, 28px);
   padding-block-start: clamp(12px, 4dvh, 36px);
 }
@@ -51,13 +51,10 @@
 }
 
 .column {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  min-block-size: 0;
   min-inline-size: 0;
 }
 
-.column + .column {
+.columns > .column + .column {
   border-inline-start: 1px solid var(--journey-accent);
 }
 
@@ -67,17 +64,6 @@
   border-bottom: 1px solid var(--hair);
   font-size: clamp(18px, 3vw, 32px);
   letter-spacing: -0.035em;
-}
-
-.scroll {
-  overflow-y: auto;
-  overscroll-behavior-y: contain;
-  scrollbar-width: thin;
-  scrollbar-color: var(--journey-accent) transparent;
-}
-
-.scroll:focus-visible {
-  outline-offset: -3px;
 }
 
 .timeline {
@@ -120,8 +106,56 @@
   text-align: center;
 }
 
+.documents {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 16px;
+  margin-inline-end: var(--timeline-inset, 0);
+}
+
+.document {
+  display: block;
+  max-inline-size: 100%;
+  border: 1px solid var(--hair);
+}
+
+.document img {
+  display: block;
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
 .entry p {
   margin: 12px 0 0;
   font-size: clamp(12px, 1.5vw, 15px);
   line-height: 1.5;
+}
+
+.panelGroups {
+  --journey-accent: var(--accent);
+  display: grid;
+  gap: 32px;
+}
+
+.panelHeading {
+  margin: 0 0 16px;
+  font-size: 20px;
+  letter-spacing: -0.025em;
+}
+
+.panelEntryHeading {
+  margin: 0 0 10px;
+  font: 600 14px var(--mono);
+}
+
+@media (max-width: 640px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .columns > .column + .column {
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--journey-accent);
+  }
 }

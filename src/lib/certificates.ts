@@ -8,19 +8,24 @@ const imageExtension = /\.(?:avif|gif|jpe?g|png|webp)$/i;
 const imageOrder = new Intl.Collator('en', { numeric: true });
 
 export async function getCertificates(): Promise<Certificate[]> {
-  return Promise.all(certificates.map(async (certificate) => {
-    const { folder } = certificate;
-    const directory = join(process.cwd(), 'public', 'certificates', folder);
-    const files = await readdir(directory, { withFileTypes: true }).catch((error: NodeJS.ErrnoException) => {
-      if (error.code === 'ENOENT') return [];
-      throw error;
-    });
-    const images = files
-      .filter((file) => file.isFile() && !file.name.startsWith('.') && imageExtension.test(file.name))
-      .map((file) => file.name)
-      .sort(imageOrder.compare)
-      .map((name) => `/certificates/${folder}/${encodeURIComponent(name)}`);
+  const root = join(process.cwd(), 'public', 'certificates');
+  const entries = await readdir(root, { withFileTypes: true }).catch((error: NodeJS.ErrnoException) => {
+    if (error.code === 'ENOENT') return [];
+    throw error;
+  });
+  const folders = new Set(entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name));
 
-    return { ...certificate, images };
+  return Promise.all(certificates.map(async ({ folder, name, assetFolder }) => {
+    const candidates = [...new Set([folder, assetFolder ?? name])];
+    const images = await Promise.all(candidates.filter((candidate) => folders.has(candidate)).map(async (candidate) => {
+      const files = await readdir(join(root, candidate), { withFileTypes: true });
+      return files
+        .filter((file) => file.isFile() && !file.name.startsWith('.') && imageExtension.test(file.name))
+        .map((file) => file.name)
+        .sort(imageOrder.compare)
+        .map((file) => `/certificates/${encodeURIComponent(candidate)}/${encodeURIComponent(file)}`);
+    }));
+
+    return { folder, name, images: images.flat() };
   }));
 }

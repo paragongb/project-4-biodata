@@ -10,6 +10,7 @@ import { about } from '@/content/about';
 import { now } from '@/content/now';
 import type { Certificate } from '@/content/certificates';
 import type { GithubStats } from '@/lib/types';
+import JourneyTimelines from '@/app/journey/JourneyTimelines';
 import CertificateTimeline from './CertificateTimeline';
 import ContactForm from './ContactForm';
 import SkillList from './SkillList';
@@ -76,6 +77,9 @@ function Body({ id, live, certificates }: Omit<PanelContent, 'onClose'> & { id: 
 
     case 'certs':
       return <CertificateTimeline certificates={certificates} />;
+
+    case 'journey':
+      return <JourneyTimelines inPanel />;
 
     case 'skills':
       return (
