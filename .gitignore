@@ -1,0 +1,28 @@
+# local-only folders (design reference, planning notes, UI prototypes)
+designref/
+planning/
+mockups/
+
+# dependencies
+node_modules/
+
+# next.js / build output
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# env files: secrets live here, never commit them
+.env
+.env*.local
+
+# vercel
+.vercel
+
+# misc
+.DS_Store
+Thumbs.db
+*.log
+
+# local résumé source (contains phone number), never publish
+src/assets/me/*.pdf
