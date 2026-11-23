@@ -6,6 +6,7 @@ Put photos directly inside the folder for each certificate. Use JPG, JPEG, PNG, 
 | --- | --- |
 | Japanese Culturual Program | `japanese-cultural-program` |
 | ICAS Mathematics | `icas-mathematics` |
+| Program Leadership Outreach | `program-leadership-outreach` |
 | Petronasains Carnival | `petronasains-carnival` |
 | DROBOTEX | `drobotex` |
 | Kem Minda Bestari | `kem-minda-bestari` |

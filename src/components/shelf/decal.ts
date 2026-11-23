@@ -22,7 +22,19 @@ export function paintDecal(dec: Decal, W: number, H: number, ink: string, ppu = 
   if (dec.windows) {
     // Draw a grid of office windows.
     const { cols, rows } = dec.windows;
-    const mx = cw * 0.14, top = ch * 0.07, bottom = ch * 0.93;
+    const mx = cw * 0.14, bottom = ch * 0.93;
+    let top = ch * 0.07;
+    if (dec.text) {
+      const fontSize = (dec.size ?? 1) * ppu;
+      const lineHeight = fontSize * 1.12;
+      const lines = dec.text.split('\n');
+      g.font = `bold ${fontSize}px ${FONT}`;
+      g.textAlign = 'center';
+      g.textBaseline = 'top';
+      g.fillStyle = glow ?? ink;
+      lines.forEach((line, i) => g.fillText(line, cw / 2, top + i * lineHeight, cw * 0.9));
+      top += lines.length * lineHeight;
+    }
     const cellW = (cw - 2 * mx) / cols, cellH = (bottom - top) / rows;
     // at night most windows are lit, in a mix of warm and cool tones; a few stay dark
     const palette = glow ? [glow, glow, '#ffe9a8', '#7fe3ff', glow, '#ff9ecf', null, '#ffe9a8'] : [];

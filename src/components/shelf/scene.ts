@@ -2,6 +2,7 @@
 // Three.js mapping: (X, Y, Z) → three (x = X, y = Z, z = Y).
 
 import type { SectionId } from '@/content/sections';
+import { experience } from '@/content/resume';
 import { site } from '@/content/site';
 
 export const BAY = 30;
@@ -57,7 +58,7 @@ function keyboard(): Pick<ShelfObj, 'boxes' | 'decals'> {
   return { boxes, decals };
 }
 
-/** A city block with three unlabelled office towers. */
+/** A city block with one tower per recent employer. */
 function towers(): Pick<ShelfObj, 'boxes' | 'decals'> {
   const spec = [
     { x: 4.5, w: 6.2, d: 5.2, h: 13, rows: 8 },
@@ -66,9 +67,12 @@ function towers(): Pick<ShelfObj, 'boxes' | 'decals'> {
   ];
   const boxes: Box[] = [box(3, 2, 0, 24.5, 8.5, 0.8)]; // street-level plate
   const decals: Decal[] = [];
-  spec.forEach((s) => {
+  spec.forEach((s, i) => {
     const y = 2.6 + (5.2 - s.d) / 2;
-    decals.push({ box: boxes.length, face: 'front', windows: { cols: 3, rows: s.rows }, glow: '#ffd36b' });
+    decals.push({
+      box: boxes.length, face: 'front', text: experience[i]?.shelfLabel, size: 0.95,
+      windows: { cols: 3, rows: s.rows }, glow: '#ffd36b',
+    });
     boxes.push(box(s.x, y, 0.8, s.w, s.d, s.h));
     boxes.push(box(s.x + s.w * 0.25, y + s.d * 0.25, 0.8 + s.h, s.w * 0.5, s.d * 0.5, 1)); // rooftop plant room
   });
@@ -142,6 +146,19 @@ export const OBJECTS: ShelfObj[] = [
 
   // ---- bay 2 ----
   {
+    id: 'journey', bay: 2, level: 4, anchor: [15, 8, 16], tint: '#433451',
+    boxes: [
+      box(9, 4, 1.5, 12, 3.2, 13), // portal opening
+      box(6.5, 2.8, 0, 17, 6.4, 0.7),
+      box(7.5, 3.5, 0.7, 15, 4.6, 1.1),
+      box(7.5, 3.5, 1.8, 2.1, 4.2, 10.8),
+      box(20.4, 3.5, 1.8, 2.1, 4.2, 10.8),
+      box(8.2, 3.5, 12.6, 2.6, 4.2, 1.8),
+      box(19.2, 3.5, 12.6, 2.6, 4.2, 1.8),
+      box(9.6, 3.5, 14.4, 10.8, 4.2, 1.5),
+    ],
+  },
+  {
     id: 'about', bay: 2, level: 3, anchor: [12, 6, 14],
     boxes: [box(6.6, 5, 0.7, 8.5, 0.8, 14, { rotX: 10 }), box(6, 4.2, 0, 9.7, 3.4, 0.7)],
     decals: [{ box: 0, face: 'front', inset: 0.55, image: '/Gerard_Bobby_Portrait.jpeg' }],
@@ -190,7 +207,7 @@ export type ShelfLayout = {
  * Phone layout: one tall bay, one cubby per level, read top → bottom.
  * Keys are the desktop "bay:level" of each cubby; the floor frame stays at the bottom.
  */
-const MOBILE_ORDER = ['0:3', '0:2', '1:3', '1:1', '0:4', '1:4', '2:3', '0:1', '2:2', '1:2', '2:1', '0:0'];
+const MOBILE_ORDER = ['2:4', '0:3', '0:2', '1:3', '1:1', '0:4', '1:4', '2:3', '0:1', '2:2', '1:2', '2:1', '0:0'];
 
 export function buildLayout(key: LayoutKey): ShelfLayout {
   let bays = BAYS;

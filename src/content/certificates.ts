@@ -1,6 +1,7 @@
 export const certificates = [
   { folder: 'japanese-cultural-program', name: 'Japanese Culturual Program' },
   { folder: 'icas-mathematics', name: 'ICAS Mathematics' },
+  { folder: 'program-leadership-outreach', name: 'Program Leadership Outreach' },
   { folder: 'petronasains-carnival', name: 'Petronasains Carnival' },
   { folder: 'drobotex', name: 'DROBOTEX' },
   { folder: 'kem-minda-bestari', name: 'Kem Minda Bestari' },

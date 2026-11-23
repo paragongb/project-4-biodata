@@ -91,6 +91,61 @@ function PhotoDecalMesh({ dec, b }: { dec: Decal; b: Box }) {
   );
 }
 
+function PortalOpening({ b, lit }: { b: Box; lit: boolean }) {
+  const material = useRef<THREE.ShaderMaterial>(null);
+  const motionAllowed = useRef(false);
+  const uniforms = useMemo(() => ({ time: { value: 0 }, brightness: { value: 1 } }), []);
+
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => { motionAllowed.current = !preference.matches; };
+    sync();
+    preference.addEventListener('change', sync);
+    return () => preference.removeEventListener('change', sync);
+  }, []);
+
+  useFrame((_, delta) => {
+    if (!material.current) return;
+    const { time, brightness } = material.current.uniforms;
+    if (motionAllowed.current) time.value += Math.min(delta, 0.05);
+    brightness.value = lit ? 1.14 : 1;
+  });
+
+  return (
+    <mesh position={[b.x + b.w / 2, b.z + b.h / 2, b.y + b.d]}>
+      <planeGeometry args={[b.w, b.h]} />
+      <shaderMaterial
+        ref={material}
+        uniforms={uniforms}
+        side={THREE.DoubleSide}
+        toneMapped={false}
+        vertexShader={`
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `}
+        fragmentShader={`
+          uniform float time;
+          uniform float brightness;
+          varying vec2 vUv;
+          void main() {
+            vec2 point = vUv - vec2(0.5, 0.48);
+            float radius = length(point * vec2(1.0, 0.76));
+            float twist = 3.0 * sin(12.0 * point.y + 7.0 * point.x - 1.2 * time);
+            float wave = 0.5 + 0.5 * cos(86.0 * radius + twist + 4.0 * time);
+            float glow = pow(wave, 3.0) * (1.0 - smoothstep(0.28, 0.61, radius));
+            vec3 color = mix(vec3(0.21, 0.06, 0.39), vec3(0.88, 0.61, 1.0), glow);
+            float pulse = 1.0 + 0.05 * sin(1.6 * time);
+            gl_FragColor = vec4(color * brightness * pulse, 1.0);
+          }
+        `}
+      />
+    </mesh>
+  );
+}
+
 function Block({ b, decals = [], lit = false, shelf = false, color, glow }: { b: Box; decals?: Decal[]; lit?: boolean; shelf?: boolean; color?: string; glow?: string }) {
   const t = useTheme();
   const night = useNight();
@@ -440,6 +495,10 @@ function ShelfItem({ obj, active, onPick, live }: { obj: ShelfObj; active: boole
     parts.push(<ScrollStack key="scrolls" boxes={obj.boxes} lit={lit} />);
   } else {
     obj.boxes.forEach((b, i) => {
+      if (id === 'journey' && i === 0) {
+        parts.push(<PortalOpening key={i} b={b} lit={lit} />);
+        return;
+      }
       if (obj.kind === 'record' && (i === 1 || i === 3)) return; // platter → vinyl, arm → animated tonearm
       parts.push(<Block key={i} b={b} lit={lit} decals={decalsFor(obj, i)} glow={nightGlow(obj, i, b)} color={theme.lit ? obj.tint : undefined} />);
     });

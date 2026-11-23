@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { sections, type SectionId } from '@/content/sections';
+import { useRouter } from 'next/navigation';
+import { sectionById, sections, type SectionId } from '@/content/sections';
 import { site } from '@/content/site';
 import { track } from '@vercel/analytics';
 import type { GithubStats } from '@/lib/types';
@@ -17,6 +18,7 @@ const ShelfCanvas = dynamic(() => import('./shelf/ShelfCanvas'), {
 });
 
 export default function Home({ certificates }: { certificates: Certificate[] }) {
+  const router = useRouter();
   const [theme, setTheme] = useState<ThemeKey>('clay');
   const [active, setActive] = useState<SectionId | null>(null);
   const [listOpen, setListOpen] = useState(false);
@@ -92,17 +94,22 @@ export default function Home({ certificates }: { certificates: Certificate[] }) 
 
   const open = useCallback((id: SectionId) => {
     track('shelf_open', { section: id });
+    if (id === 'journey') {
+      router.push(sectionById(id).href ?? '/journey');
+      return;
+    }
     if (id === 'resume') {
       window.location.assign(site.resumePdf);
       return;
     }
     setActive(id);
     setListOpen(false);
-  }, []);
+  }, [router]);
   const close = useCallback(() => setActive(null), []);
 
   useEffect(() => {
     document.body.classList.toggle('panel-open', active !== null);
+    return () => document.body.classList.remove('panel-open');
   }, [active]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setActive(null); setListOpen(false); } };
