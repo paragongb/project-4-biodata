@@ -4,7 +4,7 @@
 //   dark = unlit line art · clay = lit with soft shadows
 // Objects map to site sections; the GitHub skyline reflects live contribution data.
 
-import { createContext, lazy, Suspense, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { createContext, lazy, memo, Suspense, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { Drop } from './TeddyRain';
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
@@ -19,6 +19,7 @@ import type { GithubStats } from '@/lib/types';
 const DEG = Math.PI / 180;
 const WARM = '#ffc861';
 const NIGHT_BG = '#2f2b28'; // clay at night (keep in sync with globals.css)
+const CAMERA = { position: [-300, 300, 300] as [number, number, number], zoom: 5, near: 1, far: 2000 };
 
 const ThemeCtx = createContext<Theme>(THEMES.dark);
 const useTheme = () => useContext(ThemeCtx);
@@ -91,24 +92,31 @@ function PhotoDecalMesh({ dec, b }: { dec: Decal; b: Box }) {
   );
 }
 
-function PortalOpening({ b, lit }: { b: Box; lit: boolean }) {
+function PortalOpening({ b, lit, animate }: { b: Box; lit: boolean; animate: boolean }) {
   const material = useRef<THREE.ShaderMaterial>(null);
   const motionAllowed = useRef(false);
+  const invalidate = useThree((state) => state.invalidate);
   const uniforms = useMemo(() => ({ time: { value: 0 }, brightness: { value: 1 } }), []);
 
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const sync = () => { motionAllowed.current = !preference.matches; };
+    const sync = () => {
+      motionAllowed.current = !preference.matches;
+      invalidate();
+    };
     sync();
     preference.addEventListener('change', sync);
     return () => preference.removeEventListener('change', sync);
-  }, []);
+  }, [invalidate]);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (!material.current) return;
     const { time, brightness } = material.current.uniforms;
-    if (motionAllowed.current) time.value += Math.min(delta, 0.05);
     brightness.value = lit ? 1.14 : 1;
+    if (animate && motionAllowed.current) {
+      time.value += Math.min(delta, 0.05);
+      state.invalidate();
+    }
   });
 
   return (
@@ -173,14 +181,14 @@ function Block({ b, decals = [], lit = false, shelf = false, color, glow }: { b:
 
 const decalsFor = (o: ShelfObj, i: number) => (o.decals ?? []).filter((d) => d.box === i);
 
-function Shelf() {
+const Shelf = memo(function Shelf() {
   const { layout } = useLayout();
   return (
     <group onPointerOver={stop} onPointerMove={stop}>
       {layout.shelf.map((b, i) => <Block key={i} b={b} shelf />)}
     </group>
   );
-}
+});
 
 // ---------------------------------------------------------------- special objects
 
@@ -204,15 +212,18 @@ function useImageTexture(url?: string) {
   return tex;
 }
 
-/** The record. With album art it becomes a picture disc of the current cover, spinning while playing. */
-function Vinyl({ b, lit, playing, art }: { b: Box; lit: boolean; playing: boolean; art?: string }) {
+/** The record spins on hover, with the album cover as a picture disc. */
+function Vinyl({ b, lit, spinning, art }: { b: Box; lit: boolean; spinning: boolean; art?: string }) {
   const t = useTheme();
   const spin = useRef<THREE.Group>(null);
   const motion = useMemo(() => !reduceMotion(), []);
   const cover = useImageTexture(art);
   const night = useNight();
-  useFrame((_, dt) => {
-    if (spin.current && motion && playing) spin.current.rotation.y -= Math.min(dt, 0.1) * 1.8;
+  useFrame((state, dt) => {
+    if (spin.current && motion && spinning) {
+      spin.current.rotation.y -= Math.min(dt, 0.05) * 1.8;
+      state.invalidate();
+    }
   });
   const r = Math.min(b.w, b.d) / 2 - 0.1;
   const edge = lit ? t.accent : t.edge;
@@ -280,10 +291,15 @@ function Tonearm({ base, arm, lit, playing }: { base: Box; arm: Box; lit: boolea
   const pivot: [number, number, number] = [base.x + base.w / 2, base.z + base.h, base.y + base.d / 2];
   const back = pivot[2] - arm.y; // how far the arm extends behind the pivot
   const target = playing ? ARM_PLAY : 0;
-  useFrame((_, dt) => {
+  useFrame((state, dt) => {
     const g = swing.current;
-    if (!g) return;
-    g.rotation.y = motion ? THREE.MathUtils.damp(g.rotation.y, target, 4, dt) : target;
+    if (!g || g.rotation.y === target) return;
+    if (!motion || Math.abs(g.rotation.y - target) < 0.001) {
+      g.rotation.y = target;
+      return;
+    }
+    g.rotation.y = THREE.MathUtils.damp(g.rotation.y, target, 4, Math.min(dt, 0.05));
+    state.invalidate();
   });
   // arm + headshell in pivot space (x across, y = forward along the arm, z = up)
   const armBox: Box = { x: -arm.w / 2, y: -back, z: 0, w: arm.w, d: arm.d, h: arm.h };
@@ -300,12 +316,42 @@ function Tonearm({ base, arm, lit, playing }: { base: Box; arm: Box; lit: boolea
 
 /** Contribution skyline: one bar per day for the last N weeks. */
 const GH_GREENS = ['#0e4429', '#006d32', '#26a641', '#39d353'];
+const NO_BARS: number[][] = [];
+
+function SkylineBatch({ boxes, color, glow }: { boxes: Box[]; color: string; glow?: string }) {
+  const ref = useRef<THREE.InstancedMesh>(null);
+  const invalidate = useThree((state) => state.invalidate);
+
+  useLayoutEffect(() => {
+    const mesh = ref.current!;
+    const transform = new THREE.Matrix4();
+    boxes.forEach((b, index) => {
+      transform.makeScale(b.w, b.h, b.d);
+      transform.setPosition(b.x + b.w / 2, b.z + b.h / 2, b.y + b.d / 2);
+      mesh.setMatrixAt(index, transform);
+    });
+    mesh.instanceMatrix.needsUpdate = true;
+    mesh.computeBoundingSphere();
+    invalidate();
+  }, [boxes, invalidate]);
+
+  return (
+    <instancedMesh ref={ref} args={[undefined, undefined, boxes.length]} castShadow receiveShadow>
+      <boxGeometry />
+      <Surface color={color} emissive={glow} />
+    </instancedMesh>
+  );
+}
+
 function Skyline({ plinth, github, lit }: { plinth: Box; github: GithubStats | null; lit: boolean }) {
-  const bars = useMemo(() => {
-    const weeks = github?.source === 'live' ? github.weeks : [];
+  const theme = useTheme();
+  const night = useNight();
+  const weeks = github?.source === 'live' ? github.weeks : NO_BARS;
+  const { batches, outlines } = useMemo(() => {
     const counts = weeks.flat().filter((c) => c > 0).sort((a, b) => a - b);
     const cap = Math.max(4, counts[Math.floor(counts.length * 0.9)] ?? 4);
-    const out: { b: Box; glow?: string }[] = [];
+    const batches = new Map<string, Box[]>();
+    const bars: Box[] = [];
     const cols = weeks.length;
     const pitchX = Math.min(1.15, (plinth.w - 1.2) / Math.max(cols, 1));
     weeks.forEach((week, col) => {
@@ -313,16 +359,48 @@ function Skyline({ plinth, github, lit }: { plinth: Box; github: GithubStats | n
         if (c < 0) return; // future day
         const k = Math.min(c, cap) / cap;
         const h = 0.12 + k * 4.4;
-        out.push({
-          b: { x: plinth.x + 0.6 + col * pitchX, y: plinth.y + 0.55 + row * 1.0, z: plinth.z + plinth.h, w: pitchX * 0.74, d: 0.8, h },
-          // at night the bars glow in GitHub's contribution greens (busier day = brighter)
-          glow: c > 0 ? GH_GREENS[Math.min(GH_GREENS.length - 1, Math.floor(k * GH_GREENS.length))] : undefined,
-        });
+        const b = { x: plinth.x + 0.6 + col * pitchX, y: plinth.y + 0.55 + row, z: plinth.z + plinth.h, w: pitchX * 0.74, d: 0.8, h };
+        const glow = night && c > 0 ? GH_GREENS[Math.min(GH_GREENS.length - 1, Math.floor(k * GH_GREENS.length))] : '';
+        const batch = batches.get(glow);
+        if (batch) batch.push(b);
+        else batches.set(glow, [b]);
+        bars.push(b);
       });
     });
-    return out;
-  }, [github, plinth]);
-  return <>{bars.map(({ b, glow }, i) => <Block key={i} b={b} lit={lit} glow={glow} />)}</>;
+    if (bars.length === 0) return { batches, outlines: null };
+
+    // Draw all outlines in one submission, with the same unit-box edges as the shelf blocks.
+    const box = new THREE.BoxGeometry();
+    const edges = new THREE.EdgesGeometry(box, 15);
+    const unit = edges.attributes.position.array;
+    const outlines = new Float32Array(bars.length * unit.length);
+    bars.forEach((b, index) => {
+      const offset = index * unit.length;
+      for (let i = 0; i < unit.length; i += 3) {
+        outlines[offset + i] = b.x + (unit[i] + 0.5) * b.w;
+        outlines[offset + i + 1] = b.z + (unit[i + 1] + 0.5) * b.h;
+        outlines[offset + i + 2] = b.y + (unit[i + 2] + 0.5) * b.d;
+      }
+    });
+    edges.dispose();
+    box.dispose();
+    return { batches, outlines };
+  }, [weeks, plinth, night]);
+
+  if (!outlines) return null;
+  return (
+    <>
+      {Array.from(batches, ([glow, boxes]) => (
+        <SkylineBatch key={glow} boxes={boxes} color={glow || (lit ? theme.hot : theme.face)} glow={glow || undefined} />
+      ))}
+      <lineSegments raycast={() => null}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" args={[outlines, 3]} />
+        </bufferGeometry>
+        <lineBasicMaterial color={lit ? theme.accent : theme.edge} />
+      </lineSegments>
+    </>
+  );
 }
 
 /** Desk lamp: switches itself on at night in the visitor’s time zone; a click overrides it until the next visit. */
@@ -413,11 +491,12 @@ function Teddy({ obj }: { obj: ShelfObj }) {
   useEffect(() => () => clearTimeout(tapTimer.current), []);
   const body = obj.boxes[0];
   const pivot: [number, number, number] = [body.x + body.w / 2, body.z, body.y + body.d / 2];
-  useFrame((_, dt) => {
-    if (!g.current) return;
+  useFrame((state, dt) => {
+    if (!g.current || wobble.current === 0) return;
     wobble.current = Math.max(0, wobble.current - Math.min(dt, 0.1));
     const k = wobble.current;
     g.current.rotation.z = k > 0 ? Math.sin(k * 18) * 0.14 * k : 0;
+    if (k > 0) state.invalidate();
   });
   const fur = t.lit ? '#e9d3b4' : undefined;
   return (
@@ -485,9 +564,17 @@ function ShelfItem({ obj, active, onPick, live }: { obj: ShelfObj; active: boole
   const id = obj.id;
   const lit = Boolean(id) && (hover || active);
 
-  useFrame((_, dt) => {
+  useFrame((state, dt) => {
     // the sticky note only peels up a touch, so it doesn't float off the monitor
-    if (ref.current) ref.current.position.y = THREE.MathUtils.damp(ref.current.position.y, lit ? (id === 'now' ? 0.35 : 1.4) : 0, 10, dt);
+    const group = ref.current;
+    const target = lit ? (id === 'now' ? 0.35 : 1.4) : 0;
+    if (!group || group.position.y === target) return;
+    if (Math.abs(group.position.y - target) < 0.001) {
+      group.position.y = target;
+      return;
+    }
+    group.position.y = THREE.MathUtils.damp(group.position.y, target, 10, Math.min(dt, 0.05));
+    state.invalidate();
   });
 
   const parts: ReactNode[] = [];
@@ -496,7 +583,7 @@ function ShelfItem({ obj, active, onPick, live }: { obj: ShelfObj; active: boole
   } else {
     obj.boxes.forEach((b, i) => {
       if (id === 'journey' && i === 0) {
-        parts.push(<PortalOpening key={i} b={b} lit={lit} />);
+        parts.push(<PortalOpening key={i} b={b} lit={lit} animate={hover && !active} />);
         return;
       }
       if (obj.kind === 'record' && (i === 1 || i === 3)) return; // platter → vinyl, arm → animated tonearm
@@ -504,7 +591,7 @@ function ShelfItem({ obj, active, onPick, live }: { obj: ShelfObj; active: boole
     });
   }
   if (obj.kind === 'record') {
-    parts.push(<Vinyl key="vinyl" b={obj.boxes[1]} lit={lit} playing art={site.featuredTrack.artwork} />);
+    parts.push(<Vinyl key="vinyl" b={obj.boxes[1]} lit={lit} spinning={hover && !active} art={site.featuredTrack.artwork} />);
     parts.push(<Tonearm key="arm" base={obj.boxes[2]} arm={obj.boxes[3]} lit={lit} playing />);
   }
   if (obj.kind === 'github') parts.push(<Skyline key="sky" plinth={obj.boxes[0]} github={live.github} lit={lit} />);
@@ -578,11 +665,11 @@ function ScrollStack({ boxes, lit }: { boxes: Box[]; lit: boolean }) {
   );
 }
 
-function ShelfObject(props: { obj: ShelfObj; active: boolean; onPick: (id: SectionId) => void; live: LiveProps }) {
+const ShelfObject = memo(function ShelfObject(props: { obj: ShelfObj; active: boolean; onPick: (id: SectionId) => void; live: LiveProps }) {
   if (props.obj.kind === 'lamp') return <Lamp obj={props.obj} night={props.live.night} />;
   if (props.obj.kind === 'teddy') return <Teddy obj={props.obj} />;
   return <ShelfItem {...props} />;
-}
+});
 
 // ---------------------------------------------------------------- camera
 
@@ -636,12 +723,15 @@ type Flight = { t: number; dur: number; intro?: boolean; fromT: THREE.Vector3; t
 type OrbitLike = { target: THREE.Vector3; update: () => void; enabled: boolean };
 
 function Scene({ activeId, onPick, live, onContentHeight }: { activeId: SectionId | null; onPick: (id: SectionId) => void; live: LiveProps; onContentHeight?: (px: number) => void }) {
-  const { camera, size } = useThree();
+  const camera = useThree((state) => state.camera);
+  const size = useThree((state) => state.size);
+  const invalidate = useThree((state) => state.invalidate);
   const controls = useThree((s) => s.controls) as unknown as OrbitLike | null;
   const cam = camera as THREE.OrthographicCamera;
   const P = useLayout();
   const ALL = P.all;
   const fly = useRef<Flight | null>(null);
+  const cameraVector = useMemo(() => new THREE.Vector3(), []);
   const current = useRef({ box: ALL, pad: 1.08 });
 
   // ---- teddy rain ----
@@ -684,7 +774,14 @@ function Scene({ activeId, onPick, live, onContentHeight }: { activeId: SectionI
 
   // phone: camera follows the page scroll; tell the page how tall to be
   const mob = useMemo(() => (P.mobile ? mobileFraming(ALL, size) : null), [P.mobile, ALL, size]);
-  useEffect(() => { if (mob) onContentHeight?.(mob.contentPx); }, [mob, onContentHeight]);
+  useEffect(() => {
+    if (!mob) return;
+    onContentHeight?.(mob.contentPx);
+    invalidate();
+    const onScroll = () => invalidate();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [mob, onContentHeight, invalidate]);
 
   const frameBox = useCallback((box: THREE.Box3, pad: number, instant = false) => {
     current.current = { box, pad };
@@ -695,11 +792,13 @@ function Scene({ activeId, onPick, live, onContentHeight }: { activeId: SectionI
       cam.lookAt(target);
       cam.updateProjectionMatrix();
       if (controls) { controls.target.copy(target); controls.update(); }
+      invalidate();
       return;
     }
     controls.enabled = true;
     fly.current = { t: 0, dur: 0.9, fromT: controls.target.clone(), toT: target, fromZ: cam.zoom, toZ: zoom, fromDir: cam.position.clone().sub(controls.target).normalize() };
-  }, [cam, controls, size]);
+    invalidate();
+  }, [cam, controls, size, invalidate]);
 
   // intro on first load, then refit on resize
   const introStarted = useRef(false);
@@ -714,6 +813,7 @@ function Scene({ activeId, onPick, live, onContentHeight }: { activeId: SectionI
         cam.lookAt(target);
         cam.updateProjectionMatrix();
         fly.current = { t: 0, dur: 1.1, intro: true, fromT: target, toT: target, fromZ: zoom * 0.75, toZ: zoom, fromDir: TOP.clone() };
+        invalidate();
         return;
       }
     }
@@ -732,10 +832,10 @@ function Scene({ activeId, onPick, live, onContentHeight }: { activeId: SectionI
     else frameBox(ALL, 1.08);
   }, [activeId, frameBox, P, ALL]);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (mob) {
       // scroll 1px → camera moves 1px down the shelf, like a normal page
-      const target = mob.top.clone().addScaledVector(UP, -window.scrollY / mob.zoom);
+      const target = cameraVector.copy(mob.top).addScaledVector(UP, -window.scrollY / mob.zoom);
       cam.position.copy(target).addScaledVector(ISO, DIST);
       cam.lookAt(target);
       if (cam.zoom !== mob.zoom) { cam.zoom = mob.zoom; cam.updateProjectionMatrix(); }
@@ -746,7 +846,7 @@ function Scene({ activeId, onPick, live, onContentHeight }: { activeId: SectionI
     f.t = Math.min(1, f.t + Math.min(delta, 0.1) / f.dur); // slow frames slow it down, never skip it
     const e = ease(f.t);
     const target = f.intro || !controls ? f.toT : controls.target.lerpVectors(f.fromT, f.toT, e);
-    cam.position.copy(target).addScaledVector(f.fromDir.clone().lerp(ISO, e).normalize(), DIST);
+    cam.position.copy(target).addScaledVector(cameraVector.copy(f.fromDir).lerp(ISO, e).normalize(), DIST);
     cam.zoom = THREE.MathUtils.lerp(f.fromZ, f.toZ, e);
     cam.updateProjectionMatrix();
     if (f.intro) {
@@ -759,6 +859,7 @@ function Scene({ activeId, onPick, live, onContentHeight }: { activeId: SectionI
       controls!.update();
     }
     if (f.t === 1) fly.current = null;
+    else state.invalidate();
   });
 
   return (
@@ -788,25 +889,28 @@ export type ShelfCanvasProps = {
   github: GithubStats | null;
   /** night in the visitor’s time zone: lamp switches on; clay mode dims to a moonlit room */
   night?: boolean;
+  visible: boolean;
   layout?: LayoutKey;
   /** phone layout only: total page height (px) needed to scroll through the shelf */
   onContentHeight?: (px: number) => void;
 };
 
-export default function ShelfCanvas({ theme: themeKey, activeId, onSelect, onMiss, github, night = false, layout = 'desktop', onContentHeight }: ShelfCanvasProps) {
+export default function ShelfCanvas({ theme: themeKey, activeId, onSelect, onMiss, github, night = false, visible, layout = 'desktop', onContentHeight }: ShelfCanvasProps) {
   const theme = THEMES[themeKey];
   const live = useMemo(() => ({ github, night }), [github, night]);
   // clay at night: dim, cool moonlight so the lamp becomes the main light (day = the original look)
   const moon = theme.lit && night;
   const P = PREPARED[layout];
   const s = P.mobile ? 160 : 110; // shadow camera has to cover the taller phone shelf
+  const shadowSize = P.mobile ? 1024 : 2048;
   return (
     <Canvas
       orthographic
-      shadows
+      shadows={theme.lit ? { type: THREE.PCFShadowMap } : false}
       flat
-      dpr={[1, 2]}
-      camera={{ position: [-300, 300, 300], zoom: 5, near: 1, far: 2000 }}
+      frameloop={visible ? 'demand' : 'never'}
+      dpr={[1, P.mobile ? 1.25 : 1.5]}
+      camera={CAMERA}
       onPointerMissed={onMiss}
       style={P.mobile ? { touchAction: 'pan-y' } : undefined}
     >
@@ -816,8 +920,8 @@ export default function ShelfCanvas({ theme: themeKey, activeId, onSelect, onMis
           <color attach="background" args={[moon ? NIGHT_BG : theme.bg]} />
           <ambientLight intensity={moon ? 0.32 : 0.6} />
           <hemisphereLight key={moon ? 'n' : 'd'} args={moon ? ['#93a5c8', '#3a332c', 0.6] : ['#ffffff', '#d9cfc2', 0.7]} />
-          <directionalLight position={[-70, 150, 110]} intensity={moon ? 0.9 : 2} color={moon ? '#b4c6e6' : '#ffffff'} castShadow={theme.lit} shadow-mapSize={[2048, 2048]} shadow-bias={-0.0004} shadow-normalBias={0.05}>
-            <orthographicCamera key={layout} attach="shadow-camera" args={[-s, s, s, -s, 1, 600]} />
+          <directionalLight key={`light-${layout}`} position={[-70, 150, 110]} intensity={moon ? 0.9 : 2} color={moon ? '#b4c6e6' : '#ffffff'} castShadow={theme.lit} shadow-mapSize={[shadowSize, shadowSize]} shadow-bias={-0.0004} shadow-normalBias={0.05}>
+            <orthographicCamera attach="shadow-camera" args={[-s, s, s, -s, 1, 600]} />
           </directionalLight>
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, P.groundY, 0]} receiveShadow visible={theme.lit}>
             <planeGeometry args={[800, 800]} />

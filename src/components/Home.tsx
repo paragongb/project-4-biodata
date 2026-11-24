@@ -20,7 +20,7 @@ export default function Home({ certificates }: { certificates: Certificate[] }) 
   const [theme, setTheme] = useState<ThemeKey>('clay');
   const [active, setActive] = useState<SectionId | null>(null);
   const [listOpen, setListOpen] = useState(false);
-  const [mobile, setMobile] = useState(false);
+  const [mobile, setMobile] = useState<boolean | null>(null);
   const [contentPx, setContentPx] = useState(0);
   const [github, setGithub] = useState<GithubStats | null>(null);
 
@@ -128,16 +128,17 @@ export default function Home({ certificates }: { certificates: Certificate[] }) 
       </header>
 
       <main className="stage" aria-label="Shelf of portfolio sections. Use list view for a text version.">
-        <ShelfCanvas
+        {mobile === null ? <div className="shelf-loading">loading shelf.</div> : <ShelfCanvas
           theme={theme}
           activeId={active}
           onSelect={open}
           onMiss={close}
           github={github}
           night={night}
+          visible={!listOpen && (!mobile || active === null)}
           layout={mobile ? 'mobile' : 'desktop'}
           onContentHeight={setContentPx}
-        />
+        />}
       </main>
       {/* phone: the canvas stays fixed; this gives the page its scroll height */}
       {mobile && <div className="scroll-spacer" style={{ height: contentPx }} aria-hidden="true" />}

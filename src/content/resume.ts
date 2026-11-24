@@ -1,7 +1,7 @@
 export const experience = [
   {
     company: 'Mustafa, Kueh Tambi Advocates',
-    shelfLabel: 'Mustafa,\nKueh Tambi\nAdvocates',
+    shelfLabel: 'MKTA',
     title: 'IT Executive | Software Developer (PROTÉGÉ)',
     dates: 'Nov 2026 – Present',
     highlights: [
@@ -11,7 +11,7 @@ export const experience = [
   },
   {
     company: 'Public Mutual Berhad',
-    shelfLabel: 'Public\nMutual\nBerhad',
+    shelfLabel: 'PMB',
     title: 'Part-Time Public Mutual Consultant',
     dates: 'Sep 2026 – Present',
     highlights: [

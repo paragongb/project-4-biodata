@@ -70,7 +70,7 @@ function towers(): Pick<ShelfObj, 'boxes' | 'decals'> {
   spec.forEach((s, i) => {
     const y = 2.6 + (5.2 - s.d) / 2;
     decals.push({
-      box: boxes.length, face: 'front', text: experience[i]?.shelfLabel, size: 0.95,
+      box: boxes.length, face: 'front', text: experience[i]?.shelfLabel, size: 1.2,
       windows: { cols: 3, rows: s.rows }, glow: '#ffd36b',
     });
     boxes.push(box(s.x, y, 0.8, s.w, s.d, s.h));
@@ -146,16 +146,13 @@ export const OBJECTS: ShelfObj[] = [
 
   // ---- bay 2 ----
   {
-    id: 'journey', bay: 2, level: 4, anchor: [15, 8, 16], tint: '#433451',
+    id: 'journey', bay: 2, level: 4, anchor: [15, 7.5, 17], tint: '#32273f',
     boxes: [
-      box(9, 4, 1.5, 12, 3.2, 13), // portal opening
-      box(6.5, 2.8, 0, 17, 6.4, 0.7),
-      box(7.5, 3.5, 0.7, 15, 4.6, 1.1),
-      box(7.5, 3.5, 1.8, 2.1, 4.2, 10.8),
-      box(20.4, 3.5, 1.8, 2.1, 4.2, 10.8),
-      box(8.2, 3.5, 12.6, 2.6, 4.2, 1.8),
-      box(19.2, 3.5, 12.6, 2.6, 4.2, 1.8),
-      box(9.6, 3.5, 14.4, 10.8, 4.2, 1.5),
+      box(10, 4, 2, 10, 3.3, 13), // portal opening, slightly recessed
+      box(8, 4, 0, 14, 3.5, 2), // bottom
+      box(8, 4, 15, 14, 3.5, 2), // top
+      box(8, 4, 2, 2, 3.5, 13), // left
+      box(20, 4, 2, 2, 3.5, 13), // right
     ],
   },
   {
