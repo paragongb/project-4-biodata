@@ -92,68 +92,6 @@ function PhotoDecalMesh({ dec, b }: { dec: Decal; b: Box }) {
   );
 }
 
-function PortalOpening({ b, lit, animate }: { b: Box; lit: boolean; animate: boolean }) {
-  const material = useRef<THREE.ShaderMaterial>(null);
-  const motionAllowed = useRef(false);
-  const invalidate = useThree((state) => state.invalidate);
-  const uniforms = useMemo(() => ({ time: { value: 0 }, brightness: { value: 1 } }), []);
-
-  useEffect(() => {
-    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const sync = () => {
-      motionAllowed.current = !preference.matches;
-      invalidate();
-    };
-    sync();
-    preference.addEventListener('change', sync);
-    return () => preference.removeEventListener('change', sync);
-  }, [invalidate]);
-
-  useFrame((state, delta) => {
-    if (!material.current) return;
-    const { time, brightness } = material.current.uniforms;
-    brightness.value = lit ? 1.14 : 1;
-    if (animate && motionAllowed.current) {
-      time.value += Math.min(delta, 0.05);
-      state.invalidate();
-    }
-  });
-
-  return (
-    <mesh position={[b.x + b.w / 2, b.z + b.h / 2, b.y + b.d]}>
-      <planeGeometry args={[b.w, b.h]} />
-      <shaderMaterial
-        ref={material}
-        uniforms={uniforms}
-        side={THREE.DoubleSide}
-        toneMapped={false}
-        vertexShader={`
-          varying vec2 vUv;
-          void main() {
-            vUv = uv;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-          }
-        `}
-        fragmentShader={`
-          uniform float time;
-          uniform float brightness;
-          varying vec2 vUv;
-          void main() {
-            vec2 point = vUv - vec2(0.5, 0.48);
-            float radius = length(point * vec2(1.0, 0.76));
-            float twist = 3.0 * sin(12.0 * point.y + 7.0 * point.x - 1.2 * time);
-            float wave = 0.5 + 0.5 * cos(86.0 * radius + twist + 4.0 * time);
-            float glow = pow(wave, 3.0) * (1.0 - smoothstep(0.28, 0.61, radius));
-            vec3 color = mix(vec3(0.21, 0.06, 0.39), vec3(0.88, 0.61, 1.0), glow);
-            float pulse = 1.0 + 0.05 * sin(1.6 * time);
-            gl_FragColor = vec4(color * brightness * pulse, 1.0);
-          }
-        `}
-      />
-    </mesh>
-  );
-}
-
 function Block({ b, decals = [], lit = false, shelf = false, color, glow }: { b: Box; decals?: Decal[]; lit?: boolean; shelf?: boolean; color?: string; glow?: string }) {
   const t = useTheme();
   const night = useNight();
@@ -578,14 +516,10 @@ function ShelfItem({ obj, active, onPick, live }: { obj: ShelfObj; active: boole
   });
 
   const parts: ReactNode[] = [];
-  if (obj.kind === 'scrolls') {
-    parts.push(<ScrollStack key="scrolls" boxes={obj.boxes} lit={lit} />);
+  if (obj.kind === 'scroll') {
+    parts.push(<ParchmentScroll key="scroll" b={obj.boxes[0]} lit={lit} />);
   } else {
     obj.boxes.forEach((b, i) => {
-      if (id === 'journey' && i === 0) {
-        parts.push(<PortalOpening key={i} b={b} lit={lit} animate={hover && !active} />);
-        return;
-      }
       if (obj.kind === 'record' && (i === 1 || i === 3)) return; // platter → vinyl, arm → animated tonearm
       parts.push(<Block key={i} b={b} lit={lit} decals={decalsFor(obj, i)} glow={nightGlow(obj, i, b)} color={theme.lit ? obj.tint : undefined} />);
     });
@@ -630,37 +564,41 @@ const SCROLL_SPIRAL = Array.from({ length: 33 }, (_, index): [number, number, nu
   return [Math.cos(angle) * radius, Math.sin(angle) * radius, 0];
 });
 
-function ScrollStack({ boxes, lit }: { boxes: Box[]; lit: boolean }) {
+function ParchmentScroll({ b, lit }: { b: Box; lit: boolean }) {
   const theme = useTheme();
   const edge = lit ? theme.accent : theme.edge;
+  const radius = b.d / 2;
+  const handleLength = 2.1;
+  const paperLength = b.w - 2 * handleLength;
+  const wood = theme.lit ? '#75513c' : theme.face;
   return (
-    <group>
-      {boxes.map((box, index) => {
-        const radius = box.w / 2;
-        return (
-          <group key={index} position={[box.x + radius, box.z + radius, box.y + box.d / 2]}>
-            <mesh rotation={[Math.PI / 2, 0, 0]} castShadow receiveShadow>
-              <cylinderGeometry args={[radius, radius, box.d, 28]} />
-              <Surface color={theme.lit ? '#f3dbab' : theme.face} />
-              <Edges threshold={15} color={edge} />
-              <Outlines thickness={1} color={edge} />
-            </mesh>
-            <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, -0.35]}>
-              <cylinderGeometry args={[radius + 0.02, radius + 0.02, 0.36, 28]} />
-              <Surface color={theme.lit ? '#ae674b' : theme.face} />
-              <Edges threshold={15} color={edge} />
-            </mesh>
-            <Line
-              points={SCROLL_SPIRAL}
-              position={[0, 0, box.d / 2 + 0.015]}
-              scale={[radius, radius, 1]}
-              color={theme.edge}
-              lineWidth={1}
-              raycast={() => null}
-            />
-          </group>
-        );
-      })}
+    <group position={[b.x + b.w / 2, b.z + radius, b.y + radius]} rotation={[0, Math.PI / 2, 0]}>
+      <mesh rotation={[Math.PI / 2, 0, 0]} castShadow receiveShadow>
+        <cylinderGeometry args={[radius, radius, paperLength, 28]} />
+        <Surface color={theme.lit ? '#f3dbab' : theme.face} />
+        <Edges threshold={15} color={edge} />
+        <Outlines thickness={1} color={edge} />
+      </mesh>
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[radius + 0.025, radius + 0.025, 0.68, 28, 1, true]} />
+        <Surface color={theme.lit ? '#9b5141' : theme.hot} />
+        <Edges threshold={15} color={edge} />
+      </mesh>
+      {[-1, 1].map((side) => (
+        <group key={side} position={[0, 0, side * paperLength / 2]} rotation={[0, side < 0 ? Math.PI : 0, 0]}>
+          <Line points={SCROLL_SPIRAL} position={[0, 0, 0.02]} scale={[radius, radius, 1]} color={theme.edge} lineWidth={1} raycast={() => null} />
+          <mesh position={[0, 0, 0.7]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+            <cylinderGeometry args={[0.48, 0.48, 1.4, 16]} />
+            <Surface color={wood} />
+            <Edges threshold={25} color={edge} />
+          </mesh>
+          <mesh position={[0, 0, handleLength - 0.42]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+            <cylinderGeometry args={[0.84, 0.65, 0.84, 16]} />
+            <Surface color={wood} />
+            <Edges threshold={25} color={edge} />
+          </mesh>
+        </group>
+      ))}
     </group>
   );
 }

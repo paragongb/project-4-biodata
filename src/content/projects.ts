@@ -88,6 +88,13 @@ export const projects: Project[] = [
     demonstrationPlaceholder: true,
     showEmptyDetails: true,
   },
+  {
+    slug: 'visual-foxpro-inventory-management-system',
+    name: 'Visual Fox Pro: Simple Inventory Management System',
+    outcomeHeading: 'Outcomes',
+    demonstrationPlaceholder: true,
+    showEmptyDetails: true,
+  },
 ];
 
 export const projectBySlug = (slug: string) => projects.find((p) => p.slug === slug);

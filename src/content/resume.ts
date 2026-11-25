@@ -38,12 +38,12 @@ type SkillLevel = 'Beginner' | 'Intermediate' | 'Advanced';
 export const skills: { group: string; items: string[]; levels?: Record<string, SkillLevel> }[] = [
   {
     group: 'Programming Skills',
-    items: ['C', 'C++', 'Lua', 'Python', 'Java', 'HTML', 'CSS', 'JS', 'PHP', 'VDM++', 'MySQL', 'SQLite'],
+    items: ['C', 'C++', 'Lua', 'Python', 'Java', 'HTML', 'CSS', 'JS', 'PHP', 'VDM++', 'MySQL', 'SQLite', 'Laravel', 'Django', 'JHipster'],
     levels: { Lua: 'Beginner', 'VDM++': 'Beginner' },
   },
   {
     group: 'Technical Skills',
-    items: ['Microsoft Word', 'Microsoft Excel', 'Microsoft PowerPoint', 'Canva', 'CapCut', 'Draw.io', 'Figma', 'Visual Studio Code', 'HeidiSQL', 'HelpDesk'],
+    items: ['Microsoft Word', 'Microsoft Excel', 'Microsoft PowerPoint', 'Canva', 'CapCut', 'Draw.io', 'Figma', 'Visual Studio Code', 'HeidiSQL', 'HelpDesk', 'Visual Fox Pro', 'Docker', 'OBS Studio'],
     levels: { 'Microsoft Word': 'Advanced', 'Microsoft PowerPoint': 'Advanced', Canva: 'Advanced', 'Draw.io': 'Advanced' },
   },
   {

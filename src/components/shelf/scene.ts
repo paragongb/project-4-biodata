@@ -24,7 +24,7 @@ export type Decal = {
   image?: string;
   glow?: string; // clay at night: lights up in this colour
 };
-export type Kind = 'record' | 'lamp' | 'github' | 'teddy' | 'scrolls';
+export type Kind = 'record' | 'lamp' | 'github' | 'teddy' | 'scroll';
 
 export type ShelfObj = {
   id: SectionId | null; // null = decorative
@@ -106,12 +106,8 @@ export const OBJECTS: ShelfObj[] = [
   },
   { id: 'experience', bay: 0, level: 2, anchor: [9, 5, 16], ...towers() },
   {
-    id: 'previous-services', kind: 'scrolls', bay: 0, level: 0, anchor: [7.6, 9.6, 8],
-    boxes: [
-      box(3.2, 3.2, 0, 2.9, 6, 2.9), box(6.15, 2.9, 0, 2.9, 6.1, 2.9), box(9.1, 3.4, 0, 2.9, 6.2, 2.9),
-      box(4.675, 3.3, 2.51, 2.9, 6.1, 2.9), box(7.625, 3.1, 2.51, 2.9, 5.8, 2.9),
-      box(6.15, 3.2, 5.02, 2.9, 6.35, 2.9),
-    ],
+    id: 'previous-services', kind: 'scroll', bay: 0, level: 0, anchor: [15, 7, 3.5],
+    boxes: [box(4.5, 4.85, 0, 21, 4.3, 4.3)], // closed parchment and its wooden finials
   },
   {
     id: 'research', bay: 0, level: 1, anchor: [20, 6, 4],
@@ -146,13 +142,15 @@ export const OBJECTS: ShelfObj[] = [
 
   // ---- bay 2 ----
   {
-    id: 'journey', bay: 2, level: 4, anchor: [15, 7.5, 17], tint: '#32273f',
+    id: 'journey', bay: 2, level: 4, anchor: [15, 6.8, 4.8],
     boxes: [
-      box(10, 4, 2, 10, 3.3, 13), // portal opening, slightly recessed
-      box(8, 4, 0, 14, 3.5, 2), // bottom
-      box(8, 4, 15, 14, 3.5, 2), // top
-      box(8, 4, 2, 2, 3.5, 13), // left
-      box(20, 4, 2, 2, 3.5, 13), // right
+      box(12.5, 4.3, 0, 5, 5, 2.9), // square crown
+      box(10.6, 2.4, 2.9, 8.8, 8.8, 0.55), // square board
+      box(14.68, 6.48, 3.45, 0.64, 0.64, 0.25), // button
+      box(12.9, 6.7, 3.45, 2.1, 0.2, 0.14), // cord across the board
+      box(12.9, 6.7, 3.45, 0.2, 4.7, 0.14),
+      box(12.9, 11.2, 1.76, 0.2, 0.2, 1.83), // hanging cord
+      box(12.7, 11, 0.7, 0.6, 0.6, 1.06), // tassel
     ],
   },
   {
